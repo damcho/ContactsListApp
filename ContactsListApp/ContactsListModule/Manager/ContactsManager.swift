@@ -30,15 +30,20 @@ class ContactsManager {
         
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
-            self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
-
+            if contacts != nil {
+                self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
+            } else {
+                self.contactsListViewController?.fetchedContactsError(error:error!)
+            }
         }
         self.apiConnector.getContacts(completion:handler)
         
     }
     
     
-    
+    class func getImage(path:URL, completion: @escaping (Data) -> ()){
+        ContactsAPIConnector.downloadImage(from:path, completion:completion)
+    }
     
     
 }

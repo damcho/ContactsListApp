@@ -34,4 +34,20 @@ class ContactModel {
 
     }
     
+    func getImage(completion: @escaping (Data) -> ()){
+        
+        let handler = { [unowned self] (data:Data?) -> () in
+            self.photoData = data
+            //    TMDBCoreDataConnector.shared.save(imageData: self.imageData!, with: self.imageURLPath!, and: nil)
+            completion(data!)
+            
+        }
+        
+        if self.photoData != nil {
+            handler(self.photoData!)
+        } else {
+            ContactsManager.getImage(path: self.photoURL!, completion: handler)
+        }
+    }
+    
 }

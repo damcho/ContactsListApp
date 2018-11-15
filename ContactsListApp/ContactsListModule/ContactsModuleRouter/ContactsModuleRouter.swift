@@ -30,7 +30,7 @@ class ContactsModuleRouter {
     }
     
     
-    func pushToMovieDetail(navController:UINavigationController, movie:ContactModel) {
+    func pushToContactDetail(navController:UINavigationController, movie:ContactModel) {
         let contactDetailVC = ContactsModuleRouter.mainstoryboard.instantiateViewController(withIdentifier: "ContacDetailViewController") as! ContacDetailViewController
       //  contactDetailVC.movie = movie
     //    navController.pushViewController(movieDetailVC,animated: true)
