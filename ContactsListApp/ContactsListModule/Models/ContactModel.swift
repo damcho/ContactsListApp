@@ -8,7 +8,8 @@
 
 import Foundation
 
-class ContactModel {
+class ContactModel : Equatable{
+    
     
     var name:String
     var email:String
@@ -34,6 +35,18 @@ class ContactModel {
 
     }
     
+    static func == (lhs: ContactModel, rhs: ContactModel) -> Bool {
+        return lhs.name == rhs.name && lhs.born == rhs.born && lhs.email == rhs.email
+    }
+    
+    func update(newContact:ContactModel) {
+        self.name = newContact.name
+        self.biography = newContact.biography
+        self.email = newContact.email
+     //   self.photoURL = data.contactPhotoURL
+    //    self.born = data.contactBDate
+    }
+    
     func getImage(completion: @escaping (Data) -> ()){
         
         let handler = { [unowned self] (data:Data?) -> () in
@@ -46,7 +59,7 @@ class ContactModel {
         if self.photoData != nil {
             handler(self.photoData!)
         } else {
-            ContactsManager.getImage(path: self.photoURL!, completion: handler)
+            ContactsManager.getImage(path: self.photoURL, completion: handler)
         }
     }
     

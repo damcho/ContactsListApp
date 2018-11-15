@@ -11,6 +11,8 @@ import UIKit
 class ContacDetailViewController: UIViewController, UITextFieldDelegate {
 
     var contact:ContactModel?
+    var newContact:ContactModel?
+
     var contactsManager:ContactsManager?
 
     @IBOutlet weak var contactImageView: UIImageView!
@@ -72,17 +74,20 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     
     @objc func saveTapped() {
         print("saveTapped")
-        contact?.name = nameTextField.text!
-        contact?.biography = bioTextView.text!
-        contact?.email = emailTextField.text!
+        newContact = ContactModel()
+        newContact!.name = nameTextField.text!
+        newContact!.biography = bioTextView.text!
+        newContact!.email = emailTextField.text!
 
-        if let error = contact?.validate() {
+        if let error = newContact?.validate() {
             let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+        } else {
+            self.contact!.update(newContact:newContact!)
+            self.contactsManager!.saveContact(newContact: contact!)
+            self.setupView()
         }
-        self.setupView()
-
     }
     
     @objc func editTapped() {
@@ -108,22 +113,4 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         
         
     }
-    
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        
-    }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -75,7 +75,7 @@ class ContactsAPIConnector :DataConnector{
     }
     
     
-    static func downloadImage(from url: URL, completion: @escaping (Data) -> ()) {
+    static func downloadImage(from url: URL?, completion: @escaping (Data) -> ()) {
         
         let completionHandler = { (data:Data?, response:URLResponse?, error:Error?) in
             
@@ -84,8 +84,10 @@ class ContactsAPIConnector :DataConnector{
                 completion(data)
             }
         }
-        
-        URLSession(configuration: .default).dataTask(with: url, completionHandler: completionHandler).resume()
+        if url != nil {
+            URLSession(configuration: .default).dataTask(with: url!, completionHandler: completionHandler).resume()
+
+        }
     }
 }
 

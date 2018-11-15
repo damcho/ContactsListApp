@@ -9,7 +9,7 @@
 import UIKit
 
 class ContactsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var contactsTableView: UITableView!
     var contactsManager:ContactsManager?
     var router:ContactsModuleRouter?
@@ -19,9 +19,15 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         self.title = "Contacts List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-
+        
         contactsManager?.fwtchContacts()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.contactsTableView.reloadData()
+    }
+    
     
     @objc func addTapped() {
         self.router?.pushToContactDetail(navController:navigationController!, contact:nil)
@@ -32,16 +38,13 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let contactsCOunt = self.contacts?.count else {
-            return 0
-        }
-        return contactsCOunt
+        return (self.contactsManager?.contactsCount())!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell  {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath as IndexPath) as! ContactTableViewCell
         
-        cell.setCell(contact: self.contacts![indexPath.row])
+        cell.setCell(contact: self.contactsManager!.getContacAtIndex(index:indexPath))
         
         return cell
     }
@@ -52,7 +55,7 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         self.router?.pushToContactDetail(navController:navigationController!, contact:contact)
     }
     
-
+    
     func fetchedContactsError(error:Error) {
         showAlertView(msg: error.localizedDescription)
     }
@@ -68,6 +71,6 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-
+    
 }
 

@@ -40,8 +40,24 @@ class ContactsManager {
         
     }
     
+    func getContacAtIndex(index:IndexPath) -> ContactModel {
+        return self.contacts![index.row]
+    }
     
-    class func getImage(path:URL, completion: @escaping (Data) -> ()){
+    func contactsCount() -> Int {
+        guard let contacts = self.contacts else {
+            return 0
+        }
+        return contacts.count
+    }
+    
+    func saveContact(newContact:ContactModel) {
+        if self.contacts!.contains(where: { $0 === newContact }) == false{
+            self.contacts?.append(newContact)
+        }
+    }
+    
+    class func getImage(path:URL?, completion: @escaping (Data) -> ()){
         ContactsAPIConnector.downloadImage(from:path, completion:completion)
     }
     
