@@ -79,8 +79,8 @@
 		8B10B644219D97CC0036FCB9 /* ContactsListApp */ = {
 			isa = PBXGroup;
 			children = (
+				8B10B668219D9F2C0036FCB9 /* ContactsListModule */,
 				8B10B645219D97CC0036FCB9 /* AppDelegate.swift */,
-				8B10B647219D97CC0036FCB9 /* ViewController.swift */,
 				8B10B649219D97CC0036FCB9 /* Main.storyboard */,
 				8B10B64F219D97D00036FCB9 /* Assets.xcassets */,
 				8B10B651219D97D00036FCB9 /* LaunchScreen.storyboard */,
@@ -97,6 +97,14 @@
 				8B10B65F219D97D00036FCB9 /* Info.plist */,
 			);
 			path = ContactsListAppTests;
+			sourceTree = "<group>";
+		};
+		8B10B668219D9F2C0036FCB9 /* ContactsListModule */ = {
+			isa = PBXGroup;
+			children = (
+				8B10B647219D97CC0036FCB9 /* ViewController.swift */,
+			);
+			path = ContactsListModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
