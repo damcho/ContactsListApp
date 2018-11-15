@@ -12,11 +12,12 @@ import UIKit
 
 class ContactsModuleRouter {
     
+    private static let manager = ContactsManager()
+    
     static func createModule() -> UIViewController {
         
         let contactsListViewController = mainstoryboard.instantiateViewController(withIdentifier: "ContactsListViewController") as! ContactsListViewController
         
-        let manager = ContactsManager()
         let router = ContactsModuleRouter()
         
         contactsListViewController.contactsManager = manager
@@ -30,9 +31,10 @@ class ContactsModuleRouter {
     }
     
     
-    func pushToContactDetail(navController:UINavigationController, movie:ContactModel) {
+    func pushToContactDetail(navController:UINavigationController, contact:ContactModel?) {
         let contactDetailVC = ContactsModuleRouter.mainstoryboard.instantiateViewController(withIdentifier: "ContacDetailViewController") as! ContacDetailViewController
-      //  contactDetailVC.movie = movie
-    //    navController.pushViewController(movieDetailVC,animated: true)
+        contactDetailVC.contact = contact
+        contactDetailVC.contactsManager = ContactsModuleRouter.manager
+        navController.pushViewController(contactDetailVC,animated: true)
     }
 }

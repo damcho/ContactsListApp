@@ -18,7 +18,13 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Contacts List"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+
         contactsManager?.fwtchContacts()
+    }
+    
+    @objc func addTapped() {
+        self.router?.pushToContactDetail(navController:navigationController!, contact:nil)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
@@ -43,7 +49,7 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contact = self.contacts![indexPath.row]
-        self.router?.pushToContactDetail(navController:navigationController!, movie:contact)
+        self.router?.pushToContactDetail(navController:navigationController!, contact:contact)
     }
     
 

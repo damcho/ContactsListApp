@@ -13,7 +13,7 @@ class ContactsManager {
     let apiConnector = ContactsAPIConnector.shared
     var contacts:[ContactModel]?
     weak var contactsListViewController:ContactsListViewController?
-    
+
     func fwtchContacts() {
         if self.contacts != nil {
             self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )

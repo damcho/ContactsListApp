@@ -50,4 +50,14 @@ class ContactModel {
         }
     }
     
+    func validate() -> Error? {
+        var validate = true
+        validate = self.name != ""
+        
+        if validate == false{
+            return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"error"])
+        }
+        return nil
+    }
+    
 }
