@@ -16,9 +16,12 @@
 		8B10B65E219D97D00036FCB9 /* ContactsListAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B65D219D97D00036FCB9 /* ContactsListAppTests.swift */; };
 		8B10B66E219DA1610036FCB9 /* ContactsAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */; };
 		8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */; };
-		8B10B672219DA1880036FCB9 /* ContactsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B671219DA1880036FCB9 /* ContactsListViewModel.swift */; };
+		8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B671219DA1880036FCB9 /* ContactsManager.swift */; };
 		8B10B674219DA1950036FCB9 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B673219DA1950036FCB9 /* ContactModel.swift */; };
 		8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */; };
+		8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */; };
+		8B10B67B219DA4170036FCB9 /* ContactsDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */; };
+		8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,9 +48,12 @@
 		8B10B65F219D97D00036FCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsAPIConnector.swift; sourceTree = "<group>"; };
 		8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCoreDataConector.swift; sourceTree = "<group>"; };
-		8B10B671219DA1880036FCB9 /* ContactsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewModel.swift; sourceTree = "<group>"; };
+		8B10B671219DA1880036FCB9 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		8B10B673219DA1950036FCB9 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContacDetailViewController.swift; sourceTree = "<group>"; };
+		8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleProtocols.swift; sourceTree = "<group>"; };
+		8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDecoder.swift; sourceTree = "<group>"; };
+		8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +118,10 @@
 		8B10B668219D9F2C0036FCB9 /* ContactsListModule */ = {
 			isa = PBXGroup;
 			children = (
+				8B10B67C219DB84E0036FCB9 /* ContactsModuleRouter */,
+				8B10B677219DA2730036FCB9 /* Protocols */,
 				8B10B66C219DA11A0036FCB9 /* DataConnectors */,
-				8B10B66B219DA0F50036FCB9 /* ViewModels */,
+				8B10B66B219DA0F50036FCB9 /* Manager */,
 				8B10B66A219DA0E40036FCB9 /* Models */,
 				8B10B669219DA0C60036FCB9 /* ViewControllers */,
 			);
@@ -137,12 +145,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		8B10B66B219DA0F50036FCB9 /* ViewModels */ = {
+		8B10B66B219DA0F50036FCB9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				8B10B671219DA1880036FCB9 /* ContactsListViewModel.swift */,
+				8B10B671219DA1880036FCB9 /* ContactsManager.swift */,
 			);
-			path = ViewModels;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		8B10B66C219DA11A0036FCB9 /* DataConnectors */ = {
@@ -150,8 +158,25 @@
 			children = (
 				8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */,
 				8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */,
+				8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */,
 			);
 			path = DataConnectors;
+			sourceTree = "<group>";
+		};
+		8B10B677219DA2730036FCB9 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		8B10B67C219DB84E0036FCB9 /* ContactsModuleRouter */ = {
+			isa = PBXGroup;
+			children = (
+				8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */,
+			);
+			path = ContactsModuleRouter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,8 +281,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */,
-				8B10B672219DA1880036FCB9 /* ContactsListViewModel.swift in Sources */,
+				8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */,
 				8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */,
+				8B10B67B219DA4170036FCB9 /* ContactsDecoder.swift in Sources */,
+				8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */,
+				8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */,
 				8B10B64E219D97CC0036FCB9 /* ContactsListApp.xcdatamodeld in Sources */,
 				8B10B66E219DA1610036FCB9 /* ContactsAPIConnector.swift in Sources */,
 				8B10B674219DA1950036FCB9 /* ContactModel.swift in Sources */,

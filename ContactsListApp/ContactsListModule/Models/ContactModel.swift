@@ -7,3 +7,31 @@
 //
 
 import Foundation
+
+class ContactModel {
+    
+    var name:String
+    var email:String
+    var born:String
+    var biography:String
+    var photoURL:URL?
+    var photoData:Data?
+    
+    
+    init() {
+        self.name = ""
+        self.biography = ""
+        self.email = ""
+        self.born = ""
+    }
+    
+    init(data:DecodedContact) {
+        self.name = data.contactName
+        self.biography = data.contactBio
+        self.email = data.contactEmail
+        self.photoURL = data.contactPhotoURL
+        self.born = data.contactBDate
+
+    }
+    
+}
