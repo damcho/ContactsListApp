@@ -8,10 +8,7 @@
 
 import Foundation
 
-import Foundation
-
 typealias QueryResut = ([ContactModel]?, Error?) -> ()
-
 
 protocol DataConnector {
     func getContacts( completion: @escaping QueryResut )

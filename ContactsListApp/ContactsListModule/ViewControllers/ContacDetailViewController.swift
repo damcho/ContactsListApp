@@ -22,18 +22,14 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var nameInputHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var nameInputLabel: UILabel!
+    @IBOutlet weak var nameInputLabelHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-     
-        
     }
     
     func setupView() {
-       
-
         if contact == nil {
             contact = ContactModel()
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
@@ -49,32 +45,23 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.title = contact?.name
                navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
             nameInputHeightConstraint.constant = 0
+            nameInputLabelHeightConstraint.constant = 0
             self.nameTextField.isHidden = true
-            self.nameInputLabel.isHidden = true
-
             self.bioTextView.isEditable = false
-
-            self.birthTextField.isUserInteractionEnabled = false
             self.birthTextField.isEnabled = false
-
-            self.emailTextField.isUserInteractionEnabled = false
             self.emailTextField.isEnabled = false
-
             
             contact?.getImage(completion: { (data:Data) in
                 self.contactImageView.image = UIImage(data: data)
             })
-
             self.nameTextField.text = self.contact?.name
             self.birthTextField.text = self.contact?.born
             self.emailTextField.text = self.contact?.email
             self.bioTextView.text = self.contact?.biography
-
         }
     }
     
     @objc func saveTapped() {
-        print("saveTapped")
         newContact = ContactModel()
         newContact!.name = nameTextField.text!
         newContact!.biography = bioTextView.text!
@@ -92,26 +79,22 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func editTapped() {
-        print("editTapped")
         self.title = ""
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-
-        nameInputHeightConstraint.constant = 30
         self.nameTextField.isHidden = false
+        self.nameInputHeightConstraint.constant = 30
+        nameInputLabelHeightConstraint.constant = 30
         self.nameTextField.isEnabled = true
-        self.nameTextField.isUserInteractionEnabled = true
-        
-        self.bioTextView.isUserInteractionEnabled = true
         self.bioTextView.isEditable = true
-
-        self.birthTextField.isUserInteractionEnabled = true
         self.birthTextField.isEnabled = true
-        
-        self.emailTextField.isUserInteractionEnabled = true
         self.emailTextField.isEnabled = true
-
-        self.nameInputLabel.isHidden = false
         
-        
+        UIView.animate(withDuration: 0.25,
+                       animations: {
+                        self.view.layoutIfNeeded()
+                        
+        },
+                       completion:nil
+        )
     }
 }

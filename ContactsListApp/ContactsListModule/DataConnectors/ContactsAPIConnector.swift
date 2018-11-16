@@ -12,6 +12,7 @@ import SystemConfiguration
 
 enum StatusCode :Int{
     case SUCCESS = 200
+    case NOT_FOUND = 404
 }
 
 class ContactsAPIConnector :DataConnector{
@@ -30,7 +31,6 @@ class ContactsAPIConnector :DataConnector{
     func getContacts(completion: @escaping QueryResut) {
         if let urlComponents = URLComponents(string: baseURL + contactsPath + contactsFileName) {
             guard let url = urlComponents.url else { return }
-            print(url)
             self.requestContacts(url: url, completionHandler: completion)
         }
     }
@@ -56,13 +56,10 @@ class ContactsAPIConnector :DataConnector{
                         }
                         
                     default:
-                        print("error")/*
-                         
-                         let decodedError:Error = try MovieObjectDecoder.decodeError(data: data)
-                         DispatchQueue.main.async {
-                         completionHandler(nil, decodedError )
-                         }
-                         */
+                        let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey:"Resource not found"])
+                        DispatchQueue.main.async {
+                            completionHandler(nil, error )
+                        }
                     }
                 } catch let error {
                     DispatchQueue.main.async {
@@ -76,7 +73,6 @@ class ContactsAPIConnector :DataConnector{
     
     
     static func downloadImage(from url: String, completion: @escaping (Data) -> ()) {
-        print(url)
         if let urlComponents = URLComponents(string: url) {
             guard let url = urlComponents.url else { return }
             

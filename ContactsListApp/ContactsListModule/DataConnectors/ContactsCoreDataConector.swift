@@ -81,7 +81,6 @@ class ContactsDBConnector: DataConnector {
         let shortFileName = fileName.components(separatedBy: "v1")[1]
 
         let imageStore = documentsDirectory?.appendingPathComponent(shortFileName)
-        print( "store: " + imageStore!.absoluteString)
         do {
             try imageData.write(to: imageStore!)
         } catch {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class ContactsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -14,12 +15,14 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     var contactsManager:ContactsManager?
     var router:ContactsModuleRouter?
     var contacts:[ContactModel]?
+    let activityData = ActivityData()
+    var activityIndicatorView:NVActivityIndicatorPresenter = NVActivityIndicatorPresenter.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Contacts List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-        
+        activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
         contactsManager?.fwtchContacts()
     }
     
@@ -57,11 +60,12 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     
     
     func fetchedContactsError(error:Error) {
+        activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
         showAlertView(msg: error.localizedDescription)
     }
     
     func fetchedContactsSuccess(contacts:[ContactModel]) {
-        print(contacts)
+        activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
         self.contacts = contacts
         self.contactsTableView.reloadData()
     }

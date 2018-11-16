@@ -207,7 +207,7 @@
                         <outlet property="contactImageView" destination="Z8P-E6-GfV" id="4Uh-t1-0Xe"/>
                         <outlet property="emailTextField" destination="mQZ-T6-kV2" id="Tkv-j7-dkJ"/>
                         <outlet property="nameInputHeightConstraint" destination="b6R-DF-sjX" id="XtR-tf-GAc"/>
-                        <outlet property="nameInputLabel" destination="4Wv-eu-PTy" id="UyN-J7-WoG"/>
+                        <outlet property="nameInputLabelHeightConstraint" destination="OQu-SQ-u5P" id="zeM-KH-hEI"/>
                         <outlet property="nameTextField" destination="yW6-mI-OKd" id="6fs-CY-dK0"/>
                     </connections>
                 </viewController>
