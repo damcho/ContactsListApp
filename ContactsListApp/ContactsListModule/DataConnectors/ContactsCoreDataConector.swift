@@ -37,9 +37,11 @@ class ContactsDBConnector: DataConnector {
                 contact.name = fetchedContact.value(forKey: "name") as! String
                 contact.email = fetchedContact.value(forKey: "email") as! String
                 contact.biography = fetchedContact.value(forKey:"bio") as! String
-                contact.born = fetchedContact.value(forKey: "bDate") as! String
-                contact.photoURL = fetchedContact.value(forKey:"photoPath") as! String
-                contact.photoData = self.load(fileName: contact.photoURL)
+                contact.born = fetchedContact.value(forKey: "bDate") as? Date
+                contact.photoURL = fetchedContact.value(forKey:"photoPath") as? String
+                if contact.photoURL != nil {
+                    contact.photoData = self.load(fileName: contact.photoURL!)
+                }
                 
                 contacts.append(contact)
             }

@@ -13,9 +13,9 @@ class ContactModel : Equatable{
     
     var name:String
     var email:String
-    var born:String
+    var born:Date?
     var biography:String
-    var photoURL:String
+    var photoURL:String?
     var photoData:Data?
     
     
@@ -23,8 +23,7 @@ class ContactModel : Equatable{
         self.name = ""
         self.biography = ""
         self.email = ""
-        self.born = ""
-        self.photoURL = ""
+        self.born = Date()
     }
     
     init(data:DecodedContact) {
@@ -32,6 +31,7 @@ class ContactModel : Equatable{
         self.biography = data.contactBio
         self.email = data.contactEmail
         self.photoURL = data.contactPhotoURL
+        
         self.born = data.contactBDate
 
     }
@@ -44,23 +44,25 @@ class ContactModel : Equatable{
         self.name = newContact.name
         self.biography = newContact.biography
         self.email = newContact.email
-     //   self.photoURL = data.contactPhotoURL
-    //    self.born = data.contactBDate
+        self.born = newContact.born
     }
     
-    func getImage(completion: @escaping (Data) -> ()){
+    func getImage(completion: @escaping (Data?) -> ()){
         
         let handler = { [unowned self] (data:Data?) -> () in
             self.photoData = data
-            ContactsDBConnector.shared.save(imageData: self.photoData!, with: self.photoURL, and: nil)
-            completion(data!)
-            
+            if data != nil {
+                ContactsDBConnector.shared.save(imageData: self.photoData!, with: self.photoURL!, and: nil)
+            }
+            completion(data)
         }
         
         if self.photoData != nil {
             handler(self.photoData!)
+        } else if self.photoURL == nil{
+            handler(nil)
         } else {
-            ContactsManager.getImage(path: self.photoURL, completion: handler)
+            ContactsManager.getImage(path: self.photoURL!, completion: handler)
         }
     }
     

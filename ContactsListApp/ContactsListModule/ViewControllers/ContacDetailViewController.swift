@@ -14,6 +14,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     var newContact:ContactModel?
 
     var contactsManager:ContactsManager?
+    let dateFormatter = DateFormatter()
 
     @IBOutlet weak var contactImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
@@ -30,6 +31,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupView() {
+        dateFormatter.dateFormat = "MM/dd/yyyy"
         if contact == nil {
             contact = ContactModel()
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
@@ -51,11 +53,15 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.birthTextField.isEnabled = false
             self.emailTextField.isEnabled = false
             
-            contact?.getImage(completion: { (data:Data) in
-                self.contactImageView.image = UIImage(data: data)
+            contact?.getImage(completion: {[weak self] (data:Data?) in
+                if data != nil, let image = UIImage(data: data!) {
+                    self?.contactImageView.image = image
+                } else {
+                    self?.contactImageView.image = #imageLiteral(resourceName: "default")
+                }
             })
             self.nameTextField.text = self.contact?.name
-            self.birthTextField.text = self.contact?.born
+            self.birthTextField.text = self.contact?.born == nil ? "" : dateFormatter.string(from:(self.contact?.born)!)
             self.emailTextField.text = self.contact?.email
             self.bioTextView.text = self.contact?.biography
         }
@@ -66,6 +72,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         newContact!.name = nameTextField.text!
         newContact!.biography = bioTextView.text!
         newContact!.email = emailTextField.text!
+        newContact!.born = dateFormatter.date(from: birthTextField.text!)
 
         if let error = newContact?.validate() {
             let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)

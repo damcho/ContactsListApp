@@ -72,6 +72,11 @@ class ContactsManager {
         if self.contacts!.contains(where: { $0 === newContact }) == false{
             self.contacts?.append(newContact)
         }
+        do {
+            try self.coredataConnector.storeContacts(contacts:self.contacts!)
+        } catch let error {
+            
+        }
     }
     
     class func getImage(path:String, completion: @escaping (Data) -> ()){
