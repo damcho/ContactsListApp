@@ -84,5 +84,19 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         }
 
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)    {
+        if editingStyle == .delete
+        {
+            self.contactsTableView.beginUpdates()
+            self.contactsManager!.deleteContact(index:indexPath)
+            self.contactsTableView.deleteRows(at: [indexPath], with: .automatic)
+            self.contactsTableView.endUpdates()
+        }
+    }
 }
 

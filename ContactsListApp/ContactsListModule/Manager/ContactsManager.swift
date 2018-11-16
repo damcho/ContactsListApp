@@ -85,6 +85,10 @@ class ContactsManager {
         }
     }
     
+    func deleteContact(index:IndexPath) {
+        self.contacts!.remove(at: index.row)
+    }
+    
     class func getImage(path:String, completion: @escaping (Data) -> ()){
         ContactsAPIConnector.downloadImage(from:path, completion:completion)
     }
