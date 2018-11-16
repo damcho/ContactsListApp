@@ -34,6 +34,7 @@ class ContactsModuleRouter {
     func pushToContactDetail(navController:UINavigationController, contact:ContactModel?) {
         let contactDetailVC = ContactsModuleRouter.mainstoryboard.instantiateViewController(withIdentifier: "ContacDetailViewController") as! ContacDetailViewController
         contactDetailVC.contact = contact
+        ContactsModuleRouter.manager.contactDetailViewController = contactDetailVC
         contactDetailVC.contactsManager = ContactsModuleRouter.manager
         navController.pushViewController(contactDetailVC,animated: true)
     }

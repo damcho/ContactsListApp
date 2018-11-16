@@ -75,9 +75,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         newContact!.born = dateFormatter.date(from: birthTextField.text!)
 
         if let error = newContact?.validate() {
-            let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            showAlertView(msg: error.localizedDescription)
         } else {
             self.contact!.update(newContact:newContact!)
             self.contactsManager!.saveContact(newContact: contact!)
@@ -103,5 +101,13 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         },
                        completion:nil
         )
+    }
+    
+    func contctSavedWithSuccess() {
+        showAlertView(msg: "Contact saved with success")
+    }
+    
+    func failureSavingContact(error:Error) {
+        showAlertView(msg: error.localizedDescription)
     }
 }

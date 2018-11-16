@@ -69,12 +69,5 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         self.contacts = contacts
         self.contactsTableView.reloadData()
     }
-    
-    func showAlertView(msg:String) -> () {
-        let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
 }
 

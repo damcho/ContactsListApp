@@ -10,14 +10,12 @@ import Foundation
 
 class ContactModel : Equatable{
     
-    
     var name:String
     var email:String
     var born:Date?
     var biography:String
     var photoURL:String?
     var photoData:Data?
-    
     
     init() {
         self.name = ""
@@ -37,7 +35,7 @@ class ContactModel : Equatable{
     }
     
     static func == (lhs: ContactModel, rhs: ContactModel) -> Bool {
-        return lhs.name == rhs.name && lhs.born == rhs.born && lhs.email == rhs.email
+        return lhs.email == rhs.email
     }
     
     func update(newContact:ContactModel) {
@@ -67,13 +65,24 @@ class ContactModel : Equatable{
     }
     
     func validate() -> Error? {
-        var validate = true
-        validate = self.name != ""
-        
-        if validate == false{
-            return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"error"])
+        if !isValidName() {
+            return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"You must enter a name"])
+        } else if !self.email.isValidEmail() {
+            return NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey:"You must enter a valid e-mail"])
+        } else if self.born == nil{
+            return NSError(domain: "", code: 2, userInfo: [NSLocalizedDescriptionKey:"Invalid birth date format"])
+        } else if !isValidBiography(){
+            return NSError(domain: "", code: 3, userInfo: [NSLocalizedDescriptionKey:"You must enter a small biography"])
         }
+        
         return nil
     }
     
+    func isValidName() -> Bool {
+        return self.name != ""
+    }
+    
+    func isValidBiography() -> Bool {
+        return self.biography != ""
+    }
 }

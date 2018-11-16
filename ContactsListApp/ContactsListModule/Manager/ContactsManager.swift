@@ -14,6 +14,7 @@ class ContactsManager {
     let coredataConnector = ContactsDBConnector.shared
     var contacts:[ContactModel]?
     weak var contactsListViewController:ContactsListViewController?
+    weak var contactDetailViewController:ContacDetailViewController?
 
     func fwtchContacts() {
         if self.contacts != nil {
@@ -69,13 +70,14 @@ class ContactsManager {
     }
     
     func saveContact(newContact:ContactModel) {
-        if self.contacts!.contains(where: { $0 === newContact }) == false{
+        if self.contacts?.contains(where: { $0 == newContact }) == false{
             self.contacts?.append(newContact)
         }
         do {
             try self.coredataConnector.storeContacts(contacts:self.contacts!)
+            contactDetailViewController?.contctSavedWithSuccess()
         } catch let error {
-            
+            contactDetailViewController?.failureSavingContact(error: error)
         }
     }
     
