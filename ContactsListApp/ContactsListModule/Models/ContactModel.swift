@@ -29,9 +29,7 @@ class ContactModel : Equatable{
         self.biography = data.contactBio
         self.email = data.contactEmail
         self.photoURL = data.contactPhotoURL
-        
         self.born = data.contactBDate
-
     }
     
     static func == (lhs: ContactModel, rhs: ContactModel) -> Bool {
