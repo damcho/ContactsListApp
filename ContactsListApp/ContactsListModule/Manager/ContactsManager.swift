@@ -17,13 +17,17 @@ class ContactsManager {
     weak var contactDetailViewController:ContacDetailViewController?
 
     func fwtchContacts() {
-        if self.contacts != nil {
+        if contactsInMemory() {
             self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
         } else if Reachability.isConnectedToNetwork() {
             self.requestContactsFromAPI()
         } else {
             self.requestMoviesFromDB()
         }
+    }
+    
+    func contactsInMemory() -> Bool {
+        return self.contacts != nil && self.contacts!.isEmpty == false
     }
     
     func requestMoviesFromDB() {
@@ -84,8 +88,6 @@ class ContactsManager {
     class func getImage(path:String, completion: @escaping (Data) -> ()){
         ContactsAPIConnector.downloadImage(from:path, completion:completion)
     }
-    
-    
 }
 
 

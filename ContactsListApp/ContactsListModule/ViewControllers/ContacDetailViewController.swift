@@ -32,6 +32,8 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     
     func setupView() {
         dateFormatter.dateFormat = "MM/dd/yyyy"
+        self.bioTextView.layer.borderWidth = 1.0
+
         if contact == nil {
             contact = ContactModel()
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
@@ -40,8 +42,8 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.birthTextField.placeholder = "mm/dd/yyyy"
             self.emailTextField.placeholder = "Insert e-mail"
             self.bioTextView.text = "Insert biography"
-            self.bioTextView.textColor = UIColor.lightGray
             self.contactImageView.image = #imageLiteral(resourceName: "default")
+            self.nameTextField.becomeFirstResponder()
 
         } else {
             self.title = contact?.name
@@ -74,7 +76,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         newContact!.email = emailTextField.text!
         newContact!.born = dateFormatter.date(from: birthTextField.text!)
 
-        if let error = newContact?.validate() {
+        if let error = newContact!.validate() {
             showAlertView(msg: error.localizedDescription)
         } else {
             self.contact!.update(newContact:newContact!)
@@ -93,7 +95,8 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         self.bioTextView.isEditable = true
         self.birthTextField.isEnabled = true
         self.emailTextField.isEnabled = true
-        
+        self.nameTextField.becomeFirstResponder()
+
         UIView.animate(withDuration: 0.25,
                        animations: {
                         self.view.layoutIfNeeded()
@@ -110,4 +113,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     func failureSavingContact(error:Error) {
         showAlertView(msg: error.localizedDescription)
     }
+    
+    
 }

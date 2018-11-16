@@ -24,7 +24,7 @@
 		8B10B67B219DA4170036FCB9 /* ContactsDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */; };
 		8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */; };
 		8B10B681219DC2880036FCB9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */; };
-		8B10B683219F5BCB0036FCB9 /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B682219F5BCB0036FCB9 /* ViewControllerExtensions.swift */; };
+		8B10B683219F5BCB0036FCB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B682219F5BCB0036FCB9 /* Extensions.swift */; };
 		D8B481DB252061CAD647EF74 /* Pods_ContactsListApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AF7FD2F649EAE6D62D771C /* Pods_ContactsListApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +62,7 @@
 		8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDecoder.swift; sourceTree = "<group>"; };
 		8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleRouter.swift; sourceTree = "<group>"; };
 		8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
-		8B10B682219F5BCB0036FCB9 /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
+		8B10B682219F5BCB0036FCB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AE387AB7D8543FEBA449412A /* Pods-ContactsListApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsListApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ContactsListApp/Pods-ContactsListApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B2AF7FD2F649EAE6D62D771C /* Pods_ContactsListApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ContactsListApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6FD13F18D7F405752F6D9F /* Pods_ContactsListAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ContactsListAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +134,7 @@
 		8B10B668219D9F2C0036FCB9 /* ContactsListModule */ = {
 			isa = PBXGroup;
 			children = (
+				8B10B684219F648F0036FCB9 /* Extensions */,
 				8B10B67C219DB84E0036FCB9 /* ContactsModuleRouter */,
 				8B10B677219DA2730036FCB9 /* Protocols */,
 				8B10B66C219DA11A0036FCB9 /* DataConnectors */,
@@ -150,7 +151,6 @@
 				8B10B67F219DC2650036FCB9 /* Views */,
 				8B10B647219D97CC0036FCB9 /* ContactsListViewController.swift */,
 				8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */,
-				8B10B682219F5BCB0036FCB9 /* ViewControllerExtensions.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -203,6 +203,14 @@
 				8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8B10B684219F648F0036FCB9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8B10B682219F5BCB0036FCB9 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B6BDE7FD83B047F88D78D342 /* Pods */ = {
@@ -409,7 +417,7 @@
 				8B10B66E219DA1610036FCB9 /* ContactsAPIConnector.swift in Sources */,
 				8B10B674219DA1950036FCB9 /* ContactModel.swift in Sources */,
 				8B10B648219D97CC0036FCB9 /* ContactsListViewController.swift in Sources */,
-				8B10B683219F5BCB0036FCB9 /* ViewControllerExtensions.swift in Sources */,
+				8B10B683219F5BCB0036FCB9 /* Extensions.swift in Sources */,
 				8B10B646219D97CC0036FCB9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

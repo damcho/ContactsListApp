@@ -11,6 +11,7 @@ import NVActivityIndicatorView
 
 class ContactsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var refreshListButton: UIButton!
     @IBOutlet weak var contactsTableView: UITableView!
     var contactsManager:ContactsManager?
     var router:ContactsModuleRouter?
@@ -22,6 +23,10 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         self.title = "Contacts List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+       fetchContacts()
+    }
+    
+    func fetchContacts() {
         activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
         contactsManager?.fwtchContacts()
     }
@@ -63,11 +68,21 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
         showAlertView(msg: error.localizedDescription)
     }
+    @IBAction func onRefreshButtonTapped(_ sender: Any) {
+        fetchContacts()
+    }
     
     func fetchedContactsSuccess(contacts:[ContactModel]) {
         activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
         self.contacts = contacts
-        self.contactsTableView.reloadData()
+        self.contactsTableView.isHidden = self.contacts!.isEmpty
+        self.refreshListButton.isHidden = !self.contacts!.isEmpty
+        if self.contacts!.isEmpty {
+            showAlertView(msg: "No results")
+        } else {
+            self.contactsTableView.reloadData()
+        }
+
     }
 }
 
