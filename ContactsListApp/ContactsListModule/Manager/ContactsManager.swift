@@ -11,6 +11,7 @@ import Foundation
 class ContactsManager {
     
     let apiConnector = ContactsAPIConnector.shared
+    let coredataConnector = ContactsDBConnector.shared
     var contacts:[ContactModel]?
     weak var contactsListViewController:ContactsListViewController?
 
@@ -20,17 +21,33 @@ class ContactsManager {
         } else if Reachability.isConnectedToNetwork() {
             self.requestContactsFromAPI()
         } else {
-         //   self.requestMoviesFromDB(searchParams: searchParams)
+            self.requestMoviesFromDB()
         }
     }
     
-    
+    func requestMoviesFromDB() {
+        
+        let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
+            self.contacts = contacts
+            if contacts != nil {
+                self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
+            } else {
+                self.contactsListViewController?.fetchedContactsError(error:error!)
+            }
+        }
+        self.coredataConnector.getContacts(completion:handler)
+    }
     
     func requestContactsFromAPI() {
         
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
             if contacts != nil {
+                do {
+                    try self.coredataConnector.storeContacts(contacts:self.contacts!)
+                } catch let error {
+                    self.contactsListViewController?.fetchedContactsError(error:error)
+                }
                 self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
             } else {
                 self.contactsListViewController?.fetchedContactsError(error:error!)
@@ -57,7 +74,7 @@ class ContactsManager {
         }
     }
     
-    class func getImage(path:URL?, completion: @escaping (Data) -> ()){
+    class func getImage(path:String, completion: @escaping (Data) -> ()){
         ContactsAPIConnector.downloadImage(from:path, completion:completion)
     }
     

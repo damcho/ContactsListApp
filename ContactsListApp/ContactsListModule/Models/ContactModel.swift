@@ -15,7 +15,7 @@ class ContactModel : Equatable{
     var email:String
     var born:String
     var biography:String
-    var photoURL:URL?
+    var photoURL:String
     var photoData:Data?
     
     
@@ -24,6 +24,7 @@ class ContactModel : Equatable{
         self.biography = ""
         self.email = ""
         self.born = ""
+        self.photoURL = ""
     }
     
     init(data:DecodedContact) {
@@ -51,7 +52,7 @@ class ContactModel : Equatable{
         
         let handler = { [unowned self] (data:Data?) -> () in
             self.photoData = data
-            //    TMDBCoreDataConnector.shared.save(imageData: self.imageData!, with: self.imageURLPath!, and: nil)
+            ContactsDBConnector.shared.save(imageData: self.photoData!, with: self.photoURL, and: nil)
             completion(data!)
             
         }

@@ -51,7 +51,7 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let contact = self.contacts![indexPath.row]
+        let contact = self.contactsManager?.getContacAtIndex(index: indexPath)
         self.router?.pushToContactDetail(navController:navigationController!, contact:contact)
     }
     

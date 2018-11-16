@@ -38,7 +38,7 @@ struct DecodedContact: Decodable {
     let contactName:String
     let contactEmail:String
     let contactBio:String
-    let contactPhotoURL:URL
+    let contactPhotoURL:String
     let contactBDate:String
     
     enum CodingKeys : String, CodingKey {
@@ -56,7 +56,7 @@ struct DecodedContact: Decodable {
         self.contactBio = try container.decode(String.self, forKey: .contactBio)
         self.contactBDate = try container.decode(String.self, forKey: .contactBDate)
         self.contactEmail = try container.decode(String.self, forKey: .contactEmail)
-        self.contactPhotoURL = try container.decode(URL.self, forKey: .contactPhotoURL)
+        self.contactPhotoURL = try container.decode(String.self, forKey: .contactPhotoURL)
     }
 }
 

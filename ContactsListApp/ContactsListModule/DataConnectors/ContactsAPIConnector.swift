@@ -22,7 +22,7 @@ class ContactsAPIConnector :DataConnector{
     let baseURL = "https://s3-sa-east-1.amazonaws.com"
     let contactsPath = "/rgasp-mobile-test/v1/"
     let contactsFileName = "content.json"
-
+    
     let defaultSession:URLSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
     
@@ -58,11 +58,11 @@ class ContactsAPIConnector :DataConnector{
                     default:
                         print("error")/*
                          
-                      let decodedError:Error = try MovieObjectDecoder.decodeError(data: data)
-                        DispatchQueue.main.async {
-                            completionHandler(nil, decodedError )
-                        }
- */
+                         let decodedError:Error = try MovieObjectDecoder.decodeError(data: data)
+                         DispatchQueue.main.async {
+                         completionHandler(nil, decodedError )
+                         }
+                         */
                     }
                 } catch let error {
                     DispatchQueue.main.async {
@@ -75,18 +75,19 @@ class ContactsAPIConnector :DataConnector{
     }
     
     
-    static func downloadImage(from url: URL?, completion: @escaping (Data) -> ()) {
-        
-        let completionHandler = { (data:Data?, response:URLResponse?, error:Error?) in
+    static func downloadImage(from url: String, completion: @escaping (Data) -> ()) {
+        print(url)
+        if let urlComponents = URLComponents(string: url) {
+            guard let url = urlComponents.url else { return }
             
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() {
-                completion(data)
+            let completionHandler = { (data:Data?, response:URLResponse?, error:Error?) in
+                
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() {
+                    completion(data)
+                }
             }
-        }
-        if url != nil {
-            URLSession(configuration: .default).dataTask(with: url!, completionHandler: completionHandler).resume()
-
+            URLSession(configuration: .default).dataTask(with: url, completionHandler: completionHandler).resume()
         }
     }
 }

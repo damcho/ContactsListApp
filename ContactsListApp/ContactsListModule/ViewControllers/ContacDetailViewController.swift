@@ -52,7 +52,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.nameTextField.isHidden = true
             self.nameInputLabel.isHidden = true
 
-            self.bioTextView.isUserInteractionEnabled = false
             self.bioTextView.isEditable = false
 
             self.birthTextField.isUserInteractionEnabled = false
@@ -68,6 +67,8 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
 
             self.nameTextField.text = self.contact?.name
             self.birthTextField.text = self.contact?.born
+            self.emailTextField.text = self.contact?.email
+            self.bioTextView.text = self.contact?.biography
 
         }
     }
