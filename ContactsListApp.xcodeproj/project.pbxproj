@@ -14,7 +14,7 @@
 		8B10B64E219D97CC0036FCB9 /* ContactsListApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B64C219D97CC0036FCB9 /* ContactsListApp.xcdatamodeld */; };
 		8B10B650219D97D00036FCB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B10B64F219D97D00036FCB9 /* Assets.xcassets */; };
 		8B10B653219D97D00036FCB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B10B651219D97D00036FCB9 /* LaunchScreen.storyboard */; };
-		8B10B65E219D97D00036FCB9 /* ContactsListAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B65D219D97D00036FCB9 /* ContactsListAppTests.swift */; };
+		8B10B65E219D97D00036FCB9 /* ModelObjectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B65D219D97D00036FCB9 /* ModelObjectsTests.swift */; };
 		8B10B66E219DA1610036FCB9 /* ContactsAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */; };
 		8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */; };
 		8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B671219DA1880036FCB9 /* ContactsManager.swift */; };
@@ -51,7 +51,7 @@
 		8B10B652219D97D00036FCB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B10B654219D97D00036FCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B10B659219D97D00036FCB9 /* ContactsListAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ContactsListAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B10B65D219D97D00036FCB9 /* ContactsListAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListAppTests.swift; sourceTree = "<group>"; };
+		8B10B65D219D97D00036FCB9 /* ModelObjectsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelObjectsTests.swift; sourceTree = "<group>"; };
 		8B10B65F219D97D00036FCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsAPIConnector.swift; sourceTree = "<group>"; };
 		8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCoreDataConector.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		8B10B65C219D97D00036FCB9 /* ContactsListAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				8B10B65D219D97D00036FCB9 /* ContactsListAppTests.swift */,
+				8B10B65D219D97D00036FCB9 /* ModelObjectsTests.swift */,
 				8B10B65F219D97D00036FCB9 /* Info.plist */,
 			);
 			path = ContactsListAppTests;
@@ -426,7 +426,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B10B65E219D97D00036FCB9 /* ContactsListAppTests.swift in Sources */,
+				8B10B65E219D97D00036FCB9 /* ModelObjectsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
