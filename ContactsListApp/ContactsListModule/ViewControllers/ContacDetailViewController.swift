@@ -41,7 +41,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.nameTextField.placeholder = "Insert name"
             self.birthTextField.placeholder = "mm/dd/yyyy"
             self.emailTextField.placeholder = "Insert e-mail"
-            self.bioTextView.text = "Insert biography"
             self.contactImageView.image = #imageLiteral(resourceName: "default")
             self.nameTextField.becomeFirstResponder()
 

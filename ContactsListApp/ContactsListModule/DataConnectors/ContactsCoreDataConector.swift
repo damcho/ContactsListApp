@@ -68,11 +68,22 @@ class ContactsDBConnector: DataConnector {
             newContact.setValue(contact.born, forKeyPath: "bDate")
             newContact.setValue(contact.photoURL, forKeyPath: "photoPath")
 
-            do {
-                try managedObjectContext!.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            try managedObjectContext!.save()
+        }
+    }
+    
+    func deleteContact(contact:ContactModel) {
+        let managedObjectContext = self.getManagedContext()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Contacts")
+        fetchRequest.predicate = NSPredicate.init(format: "email==%@", contact.email)
+        do {
+            let fetchedContacts = try managedObjectContext!.fetch(fetchRequest) as! [NSManagedObject]
+            for contact in fetchedContacts {
+                managedObjectContext!.delete(contact)
             }
+            try managedObjectContext!.save()
+        } catch {
+            
         }
     }
     

@@ -86,7 +86,9 @@ class ContactsManager {
     }
     
     func deleteContact(index:IndexPath) {
+        let contact = self.contacts![index.row]
         self.contacts!.remove(at: index.row)
+        self.coredataConnector.deleteContact(contact:contact)
     }
     
     class func getImage(path:String, completion: @escaping (Data) -> ()){
