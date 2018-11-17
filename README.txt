@@ -4,9 +4,9 @@ Arquitecture: light VIPER. (No presenter)
 
 ContactsModuleRouter: in charge of creating the module and routing through the app
 
-ContactsManager: in charge of communicating with the view controllers and the Dataconnectors. It is in charge of the business logic of the app
+ContactsManager: in charge of communicating with the view controllers and the Data connectors. It is in charge of the business logic of the app
 
-ContactsListViewController: requests data to the contacts manager and shows it in a list. Contacts can be deleted by sliding on a cell and tapping "delete". A new contact can be created tapping the "+"
+ContactsListViewController: requests data to the contacts manager and shows it in a list. Contacts can be deleted by swiping on a cell and tapping "delete". A new contact can be created tapping the "+"
 ContactsDetailViewController: can display and edit a contact or can create a new one
 
 ContactModel: represents a contact
@@ -25,11 +25,11 @@ How to install the app
 -open the app's workspace file
 -compile and run
 
-Things to impvove:
+Things to improve:
 -More unit testing (testing of the network layer and the persistence layer)
 -take photo while creating new contact
 -better error handling when creating a contact
--internationalization
+-internationalisation
 -UI in general
 
 
