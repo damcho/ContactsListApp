@@ -21,7 +21,6 @@
 		8B10B674219DA1950036FCB9 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B673219DA1950036FCB9 /* ContactModel.swift */; };
 		8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */; };
 		8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */; };
-		8B10B67B219DA4170036FCB9 /* ContactsDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */; };
 		8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */; };
 		8B10B681219DC2880036FCB9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */; };
 		8B10B683219F5BCB0036FCB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B682219F5BCB0036FCB9 /* Extensions.swift */; };
@@ -59,7 +58,6 @@
 		8B10B673219DA1950036FCB9 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContacDetailViewController.swift; sourceTree = "<group>"; };
 		8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleProtocols.swift; sourceTree = "<group>"; };
-		8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDecoder.swift; sourceTree = "<group>"; };
 		8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleRouter.swift; sourceTree = "<group>"; };
 		8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		8B10B682219F5BCB0036FCB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			children = (
 				8B10B66D219DA1610036FCB9 /* ContactsAPIConnector.swift */,
 				8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */,
-				8B10B67A219DA4170036FCB9 /* ContactsDecoder.swift */,
 			);
 			path = DataConnectors;
 			sourceTree = "<group>";
@@ -364,12 +361,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ContactsListApp/Pods-ContactsListApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,7 +409,6 @@
 				8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */,
 				8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */,
 				8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */,
-				8B10B67B219DA4170036FCB9 /* ContactsDecoder.swift in Sources */,
 				8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */,
 				8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */,
 				8B10B64E219D97CC0036FCB9 /* ContactsListApp.xcdatamodeld in Sources */,

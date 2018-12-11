@@ -60,7 +60,6 @@ class ContactsDBConnector: DataConnector {
         managedObjectContext!.mergePolicy = NSOverwriteMergePolicy
         
         for contact in contacts {
-            
             let newContact = NSEntityDescription.insertNewObject(forEntityName: "Contacts", into: managedObjectContext!)
             newContact.setValue(contact.name, forKeyPath: "name")
             newContact.setValue(contact.email, forKeyPath: "email")

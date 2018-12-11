@@ -8,7 +8,7 @@
 
 import Foundation
 import SystemConfiguration
-
+import Alamofire
 
 enum StatusCode :Int{
     case SUCCESS = 200
@@ -25,7 +25,6 @@ class ContactsAPIConnector :DataConnector{
     let contactsFileName = "content.json"
     
     let defaultSession:URLSession = URLSession(configuration: .default)
-    var dataTask: URLSessionDataTask?
     
     
     func getContacts(completion: @escaping QueryResut) {
@@ -36,42 +35,24 @@ class ContactsAPIConnector :DataConnector{
     }
     
     func requestContacts(url: URL, completionHandler: @escaping QueryResut){
-        dataTask = defaultSession.dataTask(with: url) { data, response, error in
-            defer {
-                self.dataTask = nil
-            }
-            if let error = error {
-                DispatchQueue.main.async {
-                    completionHandler(nil, error)
+        
+        AF.request(url, method: .get)
+            .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Resource not found"]))
+                    return
                 }
-            } else if let data = data,
-                let response = response as? HTTPURLResponse {
-                do {
-                    let status = StatusCode(rawValue: response.statusCode)
-                    switch status {
-                    case .SUCCESS?:
-                        let contacts:[ContactModel] = try ContactsDecoder.decode(data: data)
-                        DispatchQueue.main.async {
-                            completionHandler(contacts, nil )
-                        }
-                        
-                    default:
-                        let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey:"Resource not found"])
-                        DispatchQueue.main.async {
-                            completionHandler(nil, error )
-                        }
-                    }
-                } catch let error {
-                    DispatchQueue.main.async {
-                        completionHandler(nil, error )
-                    }
+                guard let dataArray = response.result.value as? [Dictionary<String , Any>] else {
+                    completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Malformed data received from fetchAllRooms service"]))
+                    return
                 }
-            }
+                
+                let contacts:[ContactModel] = dataArray.compactMap(ContactModel.init)
+                completionHandler(contacts, nil)
         }
-        dataTask?.resume()
     }
-    
-    
+  
     static func downloadImage(from url: String, completion: @escaping (Data) -> ()) {
         if let urlComponents = URLComponents(string: url) {
             guard let url = urlComponents.url else { return }

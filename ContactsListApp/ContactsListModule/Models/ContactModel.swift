@@ -24,13 +24,20 @@ class ContactModel : Equatable{
         self.born = Date()
     }
     
-    init(data:DecodedContact) {
-        self.name = data.contactName
-        self.biography = data.contactBio
-        self.email = data.contactEmail
-        self.photoURL = data.contactPhotoURL
-        self.born = data.contactBDate
+    init?(data:Dictionary<String, Any>) {
+        self.name = data["name"] as! String
+        self.biography = data["bio"] as! String
+        self.email = data["email"] as! String
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        guard let validDate = dateFormatter.date(from: data["born"] as! String) else {
+            self.born = Date()
+            return
+        }
+        self.born = validDate
+        self.photoURL = data["photo"] as? String
     }
+    
     
     static func == (lhs: ContactModel, rhs: ContactModel) -> Bool {
         return lhs.email == rhs.email
