@@ -17,6 +17,7 @@ ContactsCoreDataConnector: In charge of requesting and deleting contacts persist
 
 External libraries
 NVActivityIndicatorView: for activity indicator animations
+Alamofire for networking
 
 How to install the app
 -check out project from https://github.com/damcho/ContactsListApp

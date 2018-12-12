@@ -60,7 +60,7 @@ class ContactsAPIConnector :DataConnector{
                     }
                     completion(image)
                 })
-        }
+        }   
     }
 }
 

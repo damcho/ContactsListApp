@@ -23,7 +23,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var nameInputHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var nameInputLabelHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +47,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.title = contact?.name
                navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
             nameInputHeightConstraint.constant = 0
-            nameInputLabelHeightConstraint.constant = 0
             self.nameTextField.isHidden = true
             self.bioTextView.isEditable = false
             self.birthTextField.isEnabled = false
@@ -89,7 +87,6 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
         self.nameTextField.isHidden = false
         self.nameInputHeightConstraint.constant = 30
-        nameInputLabelHeightConstraint.constant = 30
         self.nameTextField.isEnabled = true
         self.bioTextView.isEditable = true
         self.birthTextField.isEnabled = true
