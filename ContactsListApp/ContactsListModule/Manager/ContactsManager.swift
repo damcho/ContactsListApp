@@ -91,7 +91,7 @@ class ContactsManager {
         self.coredataConnector.deleteContact(contact:contact)
     }
     
-    class func getImage(path:String, completion: @escaping (Data) -> ()){
+    class func getImage(path:String, completion: @escaping (Data?) -> ()){
         ContactsAPIConnector.downloadImage(from:path, completion:completion)
     }
 }
