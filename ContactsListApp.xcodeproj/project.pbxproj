@@ -19,7 +19,6 @@
 		8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */; };
 		8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B671219DA1880036FCB9 /* ContactsManager.swift */; };
 		8B10B674219DA1950036FCB9 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B673219DA1950036FCB9 /* ContactModel.swift */; };
-		8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */; };
 		8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */; };
 		8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */; };
 		8B10B681219DC2880036FCB9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */; };
@@ -59,7 +58,6 @@
 		8B10B66F219DA1760036FCB9 /* ContactsCoreDataConector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCoreDataConector.swift; sourceTree = "<group>"; };
 		8B10B671219DA1880036FCB9 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		8B10B673219DA1950036FCB9 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
-		8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContacDetailViewController.swift; sourceTree = "<group>"; };
 		8B10B678219DA2880036FCB9 /* ContactsModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleProtocols.swift; sourceTree = "<group>"; };
 		8B10B67D219DB8670036FCB9 /* ContactsModuleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleRouter.swift; sourceTree = "<group>"; };
 		8B10B680219DC2880036FCB9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -154,7 +152,6 @@
 			children = (
 				8B10B67F219DC2650036FCB9 /* Views */,
 				8B10B647219D97CC0036FCB9 /* ContactsListViewController.swift */,
-				8B10B675219DA1E30036FCB9 /* ContacDetailViewController.swift */,
 				8BC7489521C290B600BA01CE /* ContactDetailFormViewController.swift */,
 			);
 			path = ViewControllers;
@@ -421,7 +418,6 @@
 				8B10B670219DA1760036FCB9 /* ContactsCoreDataConector.swift in Sources */,
 				8B10B672219DA1880036FCB9 /* ContactsManager.swift in Sources */,
 				8BC7489A21C3E8AB00BA01CE /* ContactDetailHeaderView.swift in Sources */,
-				8B10B676219DA1E30036FCB9 /* ContacDetailViewController.swift in Sources */,
 				8B10B679219DA2880036FCB9 /* ContactsModuleProtocols.swift in Sources */,
 				8B10B67E219DB8670036FCB9 /* ContactsModuleRouter.swift in Sources */,
 				8B10B64E219D97CC0036FCB9 /* ContactsListApp.xcdatamodeld in Sources */,
