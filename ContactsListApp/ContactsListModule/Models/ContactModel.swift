@@ -7,13 +7,13 @@
 //
 
 import Foundation
-
+import UIKit
 class ContactModel : Equatable{
     
-    var name:String
-    var email:String
+    var name:String?
+    var email:String?
     var born:Date?
-    var biography:String
+    var biography:String?
     var photoURL:String?
     var photoData:Data?
     
@@ -25,9 +25,9 @@ class ContactModel : Equatable{
     }
     
     init?(data:Dictionary<String, Any>) {
-        self.name = data["name"] as! String
-        self.biography = data["bio"] as! String
-        self.email = data["email"] as! String
+        self.name = data["name"] as? String
+        self.biography = data["bio"] as? String
+        self.email = data["email"] as? String
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         guard let validDate = dateFormatter.date(from: data["born"] as! String) else {
@@ -43,27 +43,33 @@ class ContactModel : Equatable{
         return lhs.email == rhs.email
     }
     
-    func update(newContact:ContactModel) {
-        self.name = newContact.name
-        self.biography = newContact.biography
-        self.email = newContact.email
-        self.born = newContact.born
+    func populate(data:ContactModel) {
+        self.name = data.name
+        self.biography = data.biography
+        self.email = data.email
+        self.born = data.born
+        self.photoData = data.photoData
+        self.photoURL = data.photoURL
     }
     
-    func getImage(completion: @escaping (Data?) -> ()){
+    func getImage(completion: @escaping (UIImage) -> ()){
         
         let handler = { [unowned self] (data:Data?) -> () in
-            self.photoData = data
             if data != nil {
+                guard let image = UIImage(data:data!) else {
+                    completion(UIImage(named: "contactdefault")!)
+                    return
+                }
+                self.photoData = data
                 ContactsDBConnector.shared.save(imageData: self.photoData!, with: self.photoURL!, and: nil)
+                completion(image)
             }
-            completion(data)
         }
         
         if self.photoData != nil {
-            handler(self.photoData!)
+            completion(UIImage(data:self.photoData!)!)
         } else if self.photoURL == nil{
-            handler(nil)
+            completion(UIImage(named: "contactdefault")!)
         } else {
             ContactsManager.getImage(path: self.photoURL!, completion: handler)
         }
@@ -72,7 +78,7 @@ class ContactModel : Equatable{
     func validate() -> Error? {
         if !isValidName() {
             return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"You must enter a name"])
-        } else if !self.email.isValidEmail() {
+        } else if self.email != nil && !self.email!.isValidEmail() {
             return NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey:"You must enter a valid e-mail"])
         } else if self.born == nil{
             return NSError(domain: "", code: 2, userInfo: [NSLocalizedDescriptionKey:"Invalid birth date format"])

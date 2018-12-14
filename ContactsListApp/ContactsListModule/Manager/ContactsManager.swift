@@ -14,7 +14,7 @@ class ContactsManager {
     let coredataConnector = ContactsDBConnector.shared
     var contacts:[ContactModel]?
     weak var contactsListViewController:ContactsListViewController?
-    weak var contactDetailViewController:ContacDetailViewController?
+    weak var contactDetailViewController:ContactDetailFormViewController?
 
     func fwtchContacts() {
         if contactsInMemory() {

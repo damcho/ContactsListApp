@@ -30,12 +30,10 @@ class ContactTableViewCell: UITableViewCell {
         self.contactImageView.image = nil
         self.contactImageView.alpha = 0
         
-        contact.getImage(completion: {[weak self] (data:Data?) ->() in
-            if data != nil , let image = UIImage(data: data!) {
-                self?.contactImageView.image = image
-            } else {
-                self?.contactImageView.image = #imageLiteral(resourceName: "default")
-            }
+        contact.getImage(completion: {[weak self] (image:UIImage) ->() in
+            
+            self?.contactImageView.image = image
+            
             UIView.animate(withDuration: 0.25,
                            animations: {
                             self?.contactImageView.alpha = 1

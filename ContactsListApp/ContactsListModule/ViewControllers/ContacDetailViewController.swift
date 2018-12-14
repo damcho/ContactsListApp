@@ -23,16 +23,46 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var nameInputHeightConstraint: NSLayoutConstraint!
-    
+    let datePicker = UIDatePicker()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
     }
+    
+    func showDatePicker(){
+        //Formate Date
+        datePicker.datePickerMode = .date
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        self.birthTextField.inputAccessoryView = toolbar
+        self.birthTextField.inputView = datePicker
+        
+    }
+    
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+    
+    @objc func donedatePicker(){
+        self.birthTextField.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+
     
     func setupView() {
         dateFormatter.dateFormat = "MM/dd/yyyy"
         self.bioTextView.layer.borderWidth = 1.0
-
+        self.showDatePicker()
         if contact == nil {
             contact = ContactModel()
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
@@ -52,12 +82,8 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
             self.birthTextField.isEnabled = false
             self.emailTextField.isEnabled = false
             
-            contact?.getImage(completion: {[weak self] (data:Data?) in
-                if data != nil, let image = UIImage(data: data!) {
+            contact?.getImage(completion: {[weak self] (image:UIImage) in
                     self?.contactImageView.image = image
-                } else {
-                    self?.contactImageView.image = #imageLiteral(resourceName: "default")
-                }
             })
             self.nameTextField.text = self.contact?.name
             self.birthTextField.text = self.contact?.born == nil ? "" : dateFormatter.string(from:(self.contact?.born)!)
@@ -76,7 +102,7 @@ class ContacDetailViewController: UIViewController, UITextFieldDelegate {
         if let error = newContact!.validate() {
             showAlertView(msg: error.localizedDescription)
         } else {
-            self.contact!.update(newContact:newContact!)
+            self.contact!.populate(data:newContact!)
             self.contactsManager!.saveContact(newContact: contact!)
             self.setupView()
         }

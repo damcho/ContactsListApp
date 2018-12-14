@@ -34,9 +34,9 @@ class ContactsDBConnector: DataConnector {
             
             for fetchedContact in fetchedContacts {
                 let contact = ContactModel()
-                contact.name = fetchedContact.value(forKey: "name") as! String
-                contact.email = fetchedContact.value(forKey: "email") as! String
-                contact.biography = fetchedContact.value(forKey:"bio") as! String
+                contact.name = fetchedContact.value(forKey: "name") as? String
+                contact.email = fetchedContact.value(forKey: "email") as? String
+                contact.biography = fetchedContact.value(forKey:"bio") as? String
                 contact.born = fetchedContact.value(forKey: "bDate") as? Date
                 contact.photoURL = fetchedContact.value(forKey:"photoPath") as? String
                 if contact.photoURL != nil {
@@ -55,8 +55,7 @@ class ContactsDBConnector: DataConnector {
     
     
     func storeContacts(contacts:[ContactModel]) throws {
-        
-        let managedObjectContext = self.getManagedContext()
+                let managedObjectContext = self.getManagedContext()
         managedObjectContext!.mergePolicy = NSOverwriteMergePolicy
         
         for contact in contacts {
@@ -74,7 +73,7 @@ class ContactsDBConnector: DataConnector {
     func deleteContact(contact:ContactModel) {
         let managedObjectContext = self.getManagedContext()
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Contacts")
-        fetchRequest.predicate = NSPredicate.init(format: "email==%@", contact.email)
+        fetchRequest.predicate = NSPredicate.init(format: "email==%@", contact.email!)
         do {
             let fetchedContacts = try managedObjectContext!.fetch(fetchRequest) as! [NSManagedObject]
             for contact in fetchedContacts {

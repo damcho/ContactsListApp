@@ -8,7 +8,7 @@ target 'ContactsListApp' do
   # Pods for ContactsListApp
 	  pod 'NVActivityIndicatorView'
 	pod 'Alamofire', '~> 5.0.0.beta.1'
-
+        pod 'Eureka'
 
 
   target 'ContactsListAppTests' do
