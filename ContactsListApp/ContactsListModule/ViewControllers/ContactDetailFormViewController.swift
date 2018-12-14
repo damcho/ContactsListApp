@@ -119,20 +119,25 @@ class ContactDetailFormViewController: FormViewController {
             <<< TextAreaRow(){ row in
                 row.title = "Biography"
                 row.value = self.contact?.biography
+                row.onChange { row in
+                    self.newContact.biography = row.value!
+                }
         }
     }
     
     func setupView() {
+        self.tableView.isUserInteractionEnabled = self.contact == nil
+        self.title = contact == nil ? "Create contact" : contact?.name
+
+        self.newContact = ContactModel()
         if self.contact == nil {
+            contact = newContact
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
         } else {
-            self.newContact = ContactModel()
             self.newContact.populate(data:self.contact!)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
-        self.tableView.isUserInteractionEnabled = self.contact == nil
         
-        self.title = contact == nil ? "Create contact" : contact?.name
     }
     
     override func inputAccessoryView(for row: BaseRow) -> UIView? {
