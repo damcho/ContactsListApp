@@ -14,34 +14,35 @@ class ContactDetailFormViewController: FormViewController {
     var newContact = ContactModel()
     var contactsManager:ContactsManager?
     
-    @objc func editTapped() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        self.tableView.isUserInteractionEnabled = true
-        let row:NameRow = form.rowBy(tag:"nameRow")!
-        row.cell.textField.becomeFirstResponder()
-    }
-    
-    @objc func saveTapped() {
-        let errors = form.validate()
-        if errors.count == 0 {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-            self.tableView.isUserInteractionEnabled = false
-            self.contact!.populate(data:newContact)
-            self.contactsManager!.saveContact(newContact: contact!)
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setupListeners()
         self.setupView()
         self.createForm()
     }
     
-    func createDataSection() -> Section {
-        return Section("DataSection")
-            <<< self.createNameRow()
-            <<< self.createEmailRow()
-            <<< self.createDateRow()
+    func setupListeners() {
+        self.contactsManager?.contctSavedWithSuccess = { [unowned self] in
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        self.contactsManager?.contactSavedWithError = { [unowned self] (error:Error) in
+            self.showAlertView(msg: error.localizedDescription)
+        }
+    }
+    
+    func setupView() {
+        self.tableView.isUserInteractionEnabled = self.contact == nil
+        self.title = contact == nil ? "Create contact" : contact?.name
+        
+        self.newContact = ContactModel()
+        if self.contact == nil {
+            contact = newContact
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
+        } else {
+            self.newContact.populate(data:self.contact!)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        }
     }
     
     func createForm() {
@@ -50,6 +51,13 @@ class ContactDetailFormViewController: FormViewController {
                  self.createBioSection()]
     }
     
+    func createDataSection() -> Section {
+        return Section("DataSection")
+            <<< self.createNameRow()
+            <<< self.createEmailRow()
+            <<< self.createDateRow()
+    }
+       
     func createFormHeader() -> Section{
         return Section("headerSection") { section in
             
@@ -122,29 +130,23 @@ class ContactDetailFormViewController: FormViewController {
         }
     }
     
-    func setupView() {
-        self.tableView.isUserInteractionEnabled = self.contact == nil
-        self.title = contact == nil ? "Create contact" : contact?.name
-        
-        self.newContact = ContactModel()
-        if self.contact == nil {
-            contact = newContact
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        } else {
-            self.newContact.populate(data:self.contact!)
+    @objc func editTapped() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
+        self.tableView.isUserInteractionEnabled = true
+        let row:NameRow = form.rowBy(tag:"nameRow")!
+        row.cell.textField.becomeFirstResponder()
+    }
+    
+    @objc func saveTapped() {
+        let errors = form.validate()
+        if errors.count == 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+            self.tableView.isUserInteractionEnabled = false
+            self.contact!.populate(data:newContact)
+            self.contactsManager!.saveContact(newContact: contact!)
         }
     }
-    
     override func inputAccessoryView(for row: BaseRow) -> UIView? {
         return nil
-    }
-    
-    func contctSavedWithSuccess() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func failureSavingContact(error:Error) {
-        showAlertView(msg: error.localizedDescription)
     }
 }

@@ -23,7 +23,34 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         self.title = "Contacts List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-       fetchContacts()
+        setupListeners()
+        fetchContacts()
+    }
+    
+    func setupListeners() {
+        self.setupDatafetchWithSuccess()
+        self.setupDataFetcWithError()
+    }
+    
+    func setupDataFetcWithError() {
+        
+        self.contactsManager!.dataRetrievedWithError = { [unowned self] error in
+            self.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
+            self.showAlertView(msg: error.localizedDescription)
+        }
+    }
+    func setupDatafetchWithSuccess() {
+        self.contactsManager!.dataRetrievedWithSuccess = { [unowned self] contacts in
+            self.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
+            self.contacts = contacts
+            self.contactsTableView.isHidden = self.contacts!.isEmpty
+            self.refreshListButton.isHidden = !self.contacts!.isEmpty
+            if self.contacts!.isEmpty {
+                self.showAlertView(msg: "No results")
+            } else {
+                self.contactsTableView.reloadData()
+            }
+        }
     }
     
     func fetchContacts() {
@@ -63,28 +90,10 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         self.router?.pushToContactDetail(navController:navigationController!, contact:contact)
     }
     
-    
-    func fetchedContactsError(error:Error) {
-        activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
-        showAlertView(msg: error.localizedDescription)
-    }
     @IBAction func onRefreshButtonTapped(_ sender: Any) {
         fetchContacts()
     }
-    
-    func fetchedContactsSuccess(contacts:[ContactModel]) {
-        activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
-        self.contacts = contacts
-        self.contactsTableView.isHidden = self.contacts!.isEmpty
-        self.refreshListButton.isHidden = !self.contacts!.isEmpty
-        if self.contacts!.isEmpty {
-            showAlertView(msg: "No results")
-        } else {
-            self.contactsTableView.reloadData()
-        }
-
-    }
-    
+ 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

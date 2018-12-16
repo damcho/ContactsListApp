@@ -22,7 +22,6 @@ class ContactsModuleRouter {
         
         contactsListViewController.contactsManager = manager
         contactsListViewController.router = router
-        manager.contactsListViewController = contactsListViewController
         return contactsListViewController
     }
     
@@ -33,7 +32,6 @@ class ContactsModuleRouter {
     func pushToContactDetail(navController:UINavigationController, contact:ContactModel?) {
         let contactForm = ContactDetailFormViewController()
         contactForm.contact = contact
-        ContactsModuleRouter.manager.contactDetailViewController = contactForm
         contactForm.contactsManager = ContactsModuleRouter.manager
         navController.pushViewController(contactForm,animated: true)
     }

@@ -13,12 +13,14 @@ class ContactsManager {
     let apiConnector = ContactsAPIConnector.shared
     let coredataConnector = ContactsDBConnector.shared
     var contacts:[ContactModel]?
-    weak var contactsListViewController:ContactsListViewController?
-    weak var contactDetailViewController:ContactDetailFormViewController?
+    var dataRetrievedWithSuccess:(([ContactModel]) -> ())?
+    var dataRetrievedWithError:((Error) -> ())?
+    var contctSavedWithSuccess:(() -> ())?
+    var contactSavedWithError:((Error) ->())?
     
     func fwtchContacts() {
         if contactsInMemory() {
-            self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
+            self.dataRetrievedWithSuccess?(self.contacts!)
         } else if Reachability.isConnectedToNetwork() {
             self.requestContactsFromAPI()
         } else {
@@ -35,9 +37,9 @@ class ContactsManager {
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
             if contacts != nil {
-                self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
+                self.dataRetrievedWithSuccess?(self.contacts!)
             } else {
-                self.contactsListViewController?.fetchedContactsError(error:error!)
+                self.dataRetrievedWithError?(error!)
             }
         }
         self.coredataConnector.getContacts(completion:handler)
@@ -47,19 +49,19 @@ class ContactsManager {
         
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
-            if contacts != nil {
-                do {
-                    try self.coredataConnector.storeContacts(contacts:self.contacts!)
-                } catch let error {
-                    self.contactsListViewController?.fetchedContactsError(error:error)
-                }
-                self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
-            } else {
-                self.contactsListViewController?.fetchedContactsError(error:error!)
+            guard let retrievedContaacts = contacts else {
+                self.dataRetrievedWithError?(error!)
+                return
             }
+            do {
+                try self.coredataConnector.storeContacts(contacts:retrievedContaacts)
+            } catch let error {
+                self.dataRetrievedWithError?(error)
+            }
+            self.dataRetrievedWithSuccess?(self.contacts!)
         }
-        self.apiConnector.getContacts(completion:handler)
         
+        self.apiConnector.getContacts(completion:handler)
     }
     
     func getContacAtIndex(index:IndexPath) -> ContactModel {
@@ -82,12 +84,12 @@ class ContactsManager {
             }
             do {
                 try self.coredataConnector.storeContacts(contacts:self.contacts!)
-                contactDetailViewController?.contctSavedWithSuccess()
+                contctSavedWithSuccess?()
             } catch let error {
-                contactDetailViewController?.failureSavingContact(error: error)
+                contactSavedWithError?( error)
             }
         } else {
-            contactDetailViewController?.failureSavingContact(error: errors!)
+            contactSavedWithError?(errors!)
         }
     }
     
