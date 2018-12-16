@@ -28,6 +28,7 @@ class ContactModel : Equatable{
         self.name = data["name"] as? String
         self.biography = data["bio"] as? String
         self.email = data["email"] as? String
+        self.photoURL = data["photo"] as? String
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         guard let validDate = dateFormatter.date(from: data["born"] as! String) else {
@@ -35,7 +36,7 @@ class ContactModel : Equatable{
             return
         }
         self.born = validDate
-        self.photoURL = data["photo"] as? String
+
     }
     
     
@@ -66,8 +67,13 @@ class ContactModel : Equatable{
             }
         }
         
+        
         if self.photoData != nil {
-            completion(UIImage(data:self.photoData!)!)
+            guard let image = UIImage(data:self.photoData!) else {
+                completion(UIImage(named: "contactdefault")!)
+                return
+            }
+            completion(image)
         } else if self.photoURL == nil{
             completion(UIImage(named: "contactdefault")!)
         } else {
@@ -75,7 +81,7 @@ class ContactModel : Equatable{
         }
     }
     
-    func validate() -> Error? {
+    func hasErrors() -> Error? {
         if !isValidName() {
             return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"You must enter a name"])
         } else if self.email != nil && !self.email!.isValidEmail() {

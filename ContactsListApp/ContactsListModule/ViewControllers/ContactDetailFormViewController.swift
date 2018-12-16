@@ -26,10 +26,8 @@ class ContactDetailFormViewController: FormViewController {
         if errors.count == 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
             self.tableView.isUserInteractionEnabled = false
-            if newContact.validate() == nil {
-                self.contact!.populate(data:newContact)
-                self.contactsManager!.saveContact(newContact: contact!)
-            }
+            self.contact!.populate(data:newContact)
+            self.contactsManager!.saveContact(newContact: contact!)
         }
     }
     
@@ -41,9 +39,9 @@ class ContactDetailFormViewController: FormViewController {
     
     func createDataSection() -> Section {
         return Section("DataSection")
-        <<< self.createNameRow()
-        <<< self.createEmailRow()
-        <<< self.createDateRow()
+            <<< self.createNameRow()
+            <<< self.createEmailRow()
+            <<< self.createDateRow()
     }
     
     func createForm() {
@@ -68,25 +66,24 @@ class ContactDetailFormViewController: FormViewController {
     }
     
     func createNameRow() -> NameRow{
-       return  NameRow("nameRow"){ row in
-                row.title = "Name"
-                row.placeholder = "Enter text here"
-                row.value = self.contact?.name
-                row.add(rule: RuleRequired())
-                row.onChange { row in
-                    self.newContact.name = row.value
+        return  NameRow("nameRow"){ row in
+            row.title = "Name"
+            row.placeholder = "Enter text here"
+            row.value = self.contact?.name
+            row.add(rule: RuleRequired())
+            row.onChange { row in
+                self.newContact.name = row.value
+            }
+            
+            } .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
                 }
-                
-                } .cellUpdate { cell, row in
-                    if !row.isValid {
-                        cell.titleLabel?.textColor = .red
-                    }
         }
-        
     }
     
     func createEmailRow() -> EmailRow{
-      return  EmailRow(){ row in
+        return EmailRow(){ row in
             row.title = "E-mail"
             row.placeholder = "Enter text here"
             row.value = self.contact?.email
@@ -104,7 +101,7 @@ class ContactDetailFormViewController: FormViewController {
     }
     
     func createDateRow() -> DateRow{
-       return DateRow(){ row in
+        return DateRow(){ row in
             row.title = "Birth"
             row.value = self.contact?.born
             row.add(rule: RuleRequired())
@@ -128,7 +125,7 @@ class ContactDetailFormViewController: FormViewController {
     func setupView() {
         self.tableView.isUserInteractionEnabled = self.contact == nil
         self.title = contact == nil ? "Create contact" : contact?.name
-
+        
         self.newContact = ContactModel()
         if self.contact == nil {
             contact = newContact
@@ -137,7 +134,6 @@ class ContactDetailFormViewController: FormViewController {
             self.newContact.populate(data:self.contact!)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
-        
     }
     
     override func inputAccessoryView(for row: BaseRow) -> UIView? {

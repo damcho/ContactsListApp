@@ -15,7 +15,7 @@ class ContactsManager {
     var contacts:[ContactModel]?
     weak var contactsListViewController:ContactsListViewController?
     weak var contactDetailViewController:ContactDetailFormViewController?
-
+    
     func fwtchContacts() {
         if contactsInMemory() {
             self.contactsListViewController?.fetchedContactsSuccess( contacts: self.contacts! )
@@ -74,14 +74,20 @@ class ContactsManager {
     }
     
     func saveContact(newContact:ContactModel) {
-        if self.contacts?.contains(where: { $0 == newContact }) == false{
-            self.contacts?.append(newContact)
-        }
-        do {
-            try self.coredataConnector.storeContacts(contacts:self.contacts!)
-            contactDetailViewController?.contctSavedWithSuccess()
-        } catch let error {
-            contactDetailViewController?.failureSavingContact(error: error)
+        let errors = newContact.hasErrors()
+        if errors == nil{
+            
+            if self.contacts?.contains(where: { $0 == newContact }) == false{
+                self.contacts?.append(newContact)
+            }
+            do {
+                try self.coredataConnector.storeContacts(contacts:self.contacts!)
+                contactDetailViewController?.contctSavedWithSuccess()
+            } catch let error {
+                contactDetailViewController?.failureSavingContact(error: error)
+            }
+        } else {
+            contactDetailViewController?.failureSavingContact(error: errors!)
         }
     }
     
