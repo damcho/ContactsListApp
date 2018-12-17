@@ -51,28 +51,19 @@ class ContactModel : Equatable{
         self.photoURL = data.photoURL
     }
     
-    func getImage(completion: @escaping (UIImage) -> ()){
-        
-        let handler = { (image:UIImage?) -> () in
-            if image != nil {
-                completion(image!)
-            } else {
-                completion(UIImage(named: "contactdefault")!)
-            }
-        }
-        
-        ContactsManager.getImage(path: self.photoURL!, completion: handler)
+    func getImage(completion: @escaping (UIImage?) -> ()){
+        ContactsManager.getImage(path: self.photoURL!, completion: completion)
     }
     
     func hasErrors() -> Error? {
         if !isValidName() {
-            return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"You must enter a name"])
+            return NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Invalid Name"])
         } else if self.email != nil && !self.email!.isValidEmail() {
-            return NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey:"You must enter a valid e-mail"])
+            return NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey:"Invalid e-mail"])
         } else if self.born == nil{
-            return NSError(domain: "", code: 2, userInfo: [NSLocalizedDescriptionKey:"Invalid birth date format"])
+            return NSError(domain: "", code: 2, userInfo: [NSLocalizedDescriptionKey:"Invalid birth date"])
         } else if !isValidBiography(){
-            return NSError(domain: "", code: 3, userInfo: [NSLocalizedDescriptionKey:"You must enter a small biography"])
+            return NSError(domain: "", code: 3, userInfo: [NSLocalizedDescriptionKey:"Invalid Biography"])
         }
         
         return nil

@@ -65,8 +65,8 @@ class ContactDetailFormViewController: FormViewController {
             
             header.onSetupView = { view, _ in
                 let header = view as ContactDetailHeaderView
-                self.newContact.getImage(completion: { (image:UIImage) ->() in
-                    header.ContactImageView.image  = image
+                self.newContact.getImage(completion: { (image:UIImage?) ->() in
+                     header.ContactImageView.image  = image != nil ? image : UIImage(named: "contactdefault")
                 })
             }
             section.header = header

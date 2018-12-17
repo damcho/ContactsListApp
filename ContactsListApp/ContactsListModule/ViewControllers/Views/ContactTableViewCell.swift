@@ -30,9 +30,9 @@ class ContactTableViewCell: UITableViewCell {
         self.contactImageView.image = nil
         self.contactImageView.alpha = 0
         
-        contact.getImage(completion: {[weak self] (image:UIImage) ->() in
+        contact.getImage(completion: {[weak self] (image:UIImage?) ->() in
             
-            self?.contactImageView.image = image
+            self?.contactImageView.image = image != nil ? image : UIImage(named: "contactdefault")
             
             UIView.animate(withDuration: 0.25,
                            animations: {
