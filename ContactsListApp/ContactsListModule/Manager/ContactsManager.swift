@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ContactsManager {
     
@@ -99,8 +100,23 @@ class ContactsManager {
         self.coredataConnector.deleteContact(contact:contact)
     }
     
-    class func getImage(path:String, completion: @escaping (Data?) -> ()){
-        ContactsAPIConnector.downloadImage(from:path, completion:completion)
+    class func getImage(path:String, completion: @escaping (UIImage?) -> ()){
+        let downloadedImageHandler = { (image:UIImage?) in
+            if image != nil {
+                ContactsDBConnector.shared.save(imageData: image!.pngData()!, with: path, and: nil)
+            }
+            completion(image)
+        }
+        
+        if Reachability.isConnectedToNetwork() {
+            ContactsAPIConnector.downloadImage(from:path, completion:downloadedImageHandler)
+        } else {
+            guard let imageData = ContactsDBConnector.shared.load(fileName: path) else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
     }
 }
 

@@ -15,7 +15,6 @@ class ContactModel : Equatable{
     var born:Date?
     var biography:String?
     var photoURL:String?
-    var photoData:Data?
     
     init() {
         self.name = ""
@@ -36,7 +35,7 @@ class ContactModel : Equatable{
             return
         }
         self.born = validDate
-
+        
     }
     
     
@@ -49,36 +48,20 @@ class ContactModel : Equatable{
         self.biography = data.biography
         self.email = data.email
         self.born = data.born
-        self.photoData = data.photoData
         self.photoURL = data.photoURL
     }
     
     func getImage(completion: @escaping (UIImage) -> ()){
         
-        let handler = { [unowned self] (data:Data?) -> () in
-            if data != nil {
-                guard let image = UIImage(data:data!) else {
-                    completion(UIImage(named: "contactdefault")!)
-                    return
-                }
-                self.photoData = data
-                ContactsDBConnector.shared.save(imageData: self.photoData!, with: self.photoURL!, and: nil)
-                completion(image)
-            }
-        }
-        
-        
-        if self.photoData != nil {
-            guard let image = UIImage(data:self.photoData!) else {
+        let handler = { (image:UIImage?) -> () in
+            if image != nil {
+                completion(image!)
+            } else {
                 completion(UIImage(named: "contactdefault")!)
-                return
             }
-            completion(image)
-        } else if self.photoURL == nil{
-            completion(UIImage(named: "contactdefault")!)
-        } else {
-            ContactsManager.getImage(path: self.photoURL!, completion: handler)
         }
+        
+        ContactsManager.getImage(path: self.photoURL!, completion: handler)
     }
     
     func hasErrors() -> Error? {

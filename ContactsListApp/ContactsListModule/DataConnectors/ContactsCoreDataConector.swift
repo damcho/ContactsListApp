@@ -39,9 +39,6 @@ class ContactsDBConnector: DataConnector {
                 contact.biography = fetchedContact.value(forKey:"bio") as? String
                 contact.born = fetchedContact.value(forKey: "bDate") as? Date
                 contact.photoURL = fetchedContact.value(forKey:"photoPath") as? String
-                if contact.photoURL != nil {
-                    contact.photoData = self.load(fileName: contact.photoURL!)
-                }
                 
                 contacts.append(contact)
             }
@@ -99,7 +96,7 @@ class ContactsDBConnector: DataConnector {
         }
     }
     
-    private func load(fileName: String) -> Data? {
+    func load(fileName: String) -> Data? {
         let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first
         let shortFileName = fileName.components(separatedBy: "v1")[1]
 

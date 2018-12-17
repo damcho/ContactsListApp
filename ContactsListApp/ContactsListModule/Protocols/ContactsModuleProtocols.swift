@@ -14,7 +14,3 @@ protocol DataConnector {
     func getContacts( completion: @escaping QueryResut )
 }
 
-protocol ContactsListController {
-    func fetchedContactsSuccess(contacts:[ContactModel])
-    func fetchedContactsError(error:Error)
-}
