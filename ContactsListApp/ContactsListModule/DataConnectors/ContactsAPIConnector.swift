@@ -12,7 +12,6 @@ import Alamofire
 
 class ContactsAPIConnector :DataConnector{
     
-    static let imageCache = NSCache<NSString, UIImage>()
     static let shared = ContactsAPIConnector()
     let baseURL = "https://s3-sa-east-1.amazonaws.com"
     let contactsPath = "/rgasp-mobile-test/v1/"
@@ -49,10 +48,7 @@ class ContactsAPIConnector :DataConnector{
     }
     
     static func downloadImage(from url: String, completion: @escaping (UIImage?) -> ()) {
-        if let cachedImage = imageCache.object(forKey: url as NSString) {
-            completion(cachedImage)
-            return
-        }
+       
       
         if let urlComponents = URLComponents(string: url) {
             guard let url = urlComponents.url else { return }
@@ -66,7 +62,6 @@ class ContactsAPIConnector :DataConnector{
                             completion(nil)
                             return
                         }
-                        imageCache.setObject(image, forKey: url.absoluteString as NSString)
                         completion(image)
 
                     } else {

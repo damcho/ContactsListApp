@@ -11,6 +11,7 @@ import UIKit
 
 class ContactsManager {
     
+    static let imageCache = NSCache<NSString, UIImage>()
     let apiConnector = ContactsAPIConnector.shared
     let coredataConnector = ContactsDBConnector.shared
     var contacts:[ContactModel]?
@@ -101,8 +102,15 @@ class ContactsManager {
     }
     
     class func getImage(path:String, completion: @escaping (UIImage?) -> ()){
+        
+        if let cachedImage = imageCache.object(forKey: path as NSString) {
+            completion(cachedImage)
+            return
+        }
+        
         let downloadedImageHandler = { (image:UIImage?) in
             if image != nil {
+                imageCache.setObject(image!, forKey: path as NSString)
                 ContactsDBConnector.shared.save(imageData: image!.pngData()!, with: path, and: nil)
             }
             completion(image)
@@ -111,10 +119,12 @@ class ContactsManager {
         if Reachability.isConnectedToNetwork() {
             ContactsAPIConnector.downloadImage(from:path, completion:downloadedImageHandler)
         } else {
-            guard let imageData = ContactsDBConnector.shared.load(fileName: path) else {
+            guard let imageData = ContactsDBConnector.shared.load(fileName: path), let image = UIImage(data:imageData) else {
                 completion(nil)
                 return
             }
+            
+            imageCache.setObject(image, forKey: path as NSString)
             completion(UIImage(data: imageData))
         }
     }
