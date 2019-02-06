@@ -52,7 +52,11 @@ class ContactModel : Equatable{
     }
     
     func getImage(completion: @escaping (UIImage?) -> ()){
-        ContactsManager.getImage(path: self.photoURL!, completion: completion)
+        if self.photoURL != nil {
+            ContactsManager.getImage(path: self.photoURL!, completion: completion)
+        } else {
+            completion(UIImage(named: "contactdefault"))
+        }
     }
     
     func hasErrors() -> Error? {
