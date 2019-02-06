@@ -55,7 +55,7 @@ class ContactModel : Equatable{
         if self.photoURL != nil {
             ContactsManager.getImage(path: self.photoURL!, completion: completion)
         } else {
-            completion(UIImage(named: "contactdefault"))
+            completion(nil)
         }
     }
     
