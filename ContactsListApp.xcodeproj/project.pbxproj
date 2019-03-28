@@ -289,9 +289,11 @@
 				TargetAttributes = {
 					8B10B641219D97CC0036FCB9 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					8B10B658219D97D00036FCB9 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = 8B10B641219D97CC0036FCB9;
 					};
 				};
@@ -597,7 +599,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = DM.ContactsListApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -615,7 +617,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = DM.ContactsListApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -635,7 +637,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = DM.ContactsListAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ContactsListApp.app/ContactsListApp";
 			};
@@ -656,7 +658,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = DM.ContactsListAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ContactsListApp.app/ContactsListApp";
 			};

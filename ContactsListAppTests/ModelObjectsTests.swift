@@ -36,27 +36,27 @@ class ModelObjectsTests: XCTestCase {
         var error:NSError?
         var contact:ContactModel
         contact = createContact()
-        error = contact.validate() as NSError?
+        error = contact.hasErrors() as NSError?
         XCTAssertNil(error)
         
         contact = createContact()
         contact.name = ""
-        error = contact.validate() as NSError?
+        error = contact.hasErrors() as NSError?
         XCTAssertEqual(error?.code,0 )
         
         contact = createContact()
         contact.email = "someemail@email"
-        error = contact.validate() as NSError?
+        error = contact.hasErrors() as NSError?
         XCTAssertEqual(error?.code,1)
         
         contact = createContact()
         contact.born = dateFormatter.date(from:"12/12/")
-        error = contact.validate() as NSError?
+        error = contact.hasErrors() as NSError?
         XCTAssertEqual(error?.code,2 )
         
         contact = createContact()
         contact.biography = ""
-        error = contact.validate() as NSError?
+        error = contact.hasErrors() as NSError?
         XCTAssertEqual(error?.code,3 )
     }
     

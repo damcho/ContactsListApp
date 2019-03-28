@@ -58,12 +58,6 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         contactsManager?.fwtchContacts()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.contactsTableView.reloadData()
-    }
-    
-    
     @objc func addTapped() {
         self.router?.pushToContactDetail(navController:navigationController!, contact:nil)
     }
@@ -79,7 +73,7 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell  {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath as IndexPath) as! ContactTableViewCell
         
-        cell.setCell(contact: self.contactsManager!.getContacAtIndex(index:indexPath))
+        cell.setCell(contact: (self.contactsManager?.getContacAtIndex(index:indexPath))!)
         
         return cell
     }
