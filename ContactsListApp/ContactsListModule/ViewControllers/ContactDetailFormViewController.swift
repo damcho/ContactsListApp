@@ -125,7 +125,7 @@ class ContactDetailFormViewController: FormViewController {
                 row.title = "Biography"
                 row.value = self.contact?.biography
                 row.onChange { row in
-                    self.newContact.biography = row.value!
+                    self.newContact.biography = row.value
                 }
         }
     }
