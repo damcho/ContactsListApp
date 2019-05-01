@@ -33,17 +33,18 @@ class ContactsAPIConnector :DataConnector{
         AF.request(url, method: .get)
             .validate()
             .responseJSON { response in
-                guard response.result.isSuccess else {
-                    completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Resource not found"]))
-                    return
+                switch response.result {
+                case .success:
+                    guard let dataArray = response.value as? [Dictionary<String , Any>] else {
+                        completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Malformed data received from fetchAllRooms service"]))
+                        return
+                    }
+                    let contacts:[ContactModel] = dataArray.compactMap(ContactModel.init)
+                    completionHandler(contacts, nil)
+
+                case .failure:
+                     completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Resource not found"]))
                 }
-                guard let dataArray = response.result.value as? [Dictionary<String , Any>] else {
-                    completionHandler(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Malformed data received from fetchAllRooms service"]))
-                    return
-                }
-                
-                let contacts:[ContactModel] = dataArray.compactMap(ContactModel.init)
-                completionHandler(contacts, nil)
         }
     }
     
@@ -55,17 +56,19 @@ class ContactsAPIConnector :DataConnector{
             
             AF.request(url, method: .get)
                 .validate()
-                .responseData(completionHandler: { (responseData) in
-                    if responseData.result.isSuccess {
-                        
-                        guard responseData.data != nil, let image = UIImage(data:responseData.data!) else {
+                .responseData(completionHandler: { (response) in
+                    
+                    switch response.result {
+                    case .success:
+                        guard response.data != nil, let image = UIImage(data:response.data!) else {
                             completion(nil)
                             return
                         }
                         completion(image)
-
-                    } else {
+                        
+                    case .failure:
                         completion(nil)
+
                     }
                 })
         }   
