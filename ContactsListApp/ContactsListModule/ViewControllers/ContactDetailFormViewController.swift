@@ -98,7 +98,7 @@ class ContactDetailFormViewController: FormViewController {
             row.add(rule: RuleRequired())
             row.add(rule: RuleEmail())
             row.onChange { row in
-                self.newContact.email = row.value!
+                self.newContact.email = row.value
             }
             }
             .cellUpdate { cell, row in
@@ -114,7 +114,7 @@ class ContactDetailFormViewController: FormViewController {
             row.value = self.contact?.born
             row.add(rule: RuleRequired())
             row.onChange { row in
-                self.newContact.born = row.value!
+                self.newContact.born = row.value
             }
         }
     }
@@ -122,6 +122,7 @@ class ContactDetailFormViewController: FormViewController {
     func createBioSection() -> Section{
         return Section("Biography")
             <<< TextAreaRow(){ row in
+                row.textAreaHeight = .dynamic(initialTextViewHeight: 100)
                 row.title = "Biography"
                 row.value = self.contact?.biography
                 row.onChange { row in
@@ -141,7 +142,6 @@ class ContactDetailFormViewController: FormViewController {
         let errors = form.validate()
         if errors.count == 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-            self.tableView.isUserInteractionEnabled = false
             self.contact!.populate(data:newContact)
             self.contactsManager!.saveContact(newContact: contact!)
         }
