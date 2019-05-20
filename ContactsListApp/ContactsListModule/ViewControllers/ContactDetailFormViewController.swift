@@ -20,6 +20,11 @@ class ContactDetailFormViewController: FormViewController {
         self.setupListeners()
         self.setupView()
         self.createForm()
+        self.evaluateDisabled()
+    }
+    
+    func evaluateDisabled() {
+        self.form.allRows.map{ $0.evaluateDisabled()}
     }
     
     func setupListeners() {
@@ -34,7 +39,8 @@ class ContactDetailFormViewController: FormViewController {
     
     func setupView() {
         self.title = contact == nil ? "Create contact" : contact?.name
-        
+        self.isBeingEdited = self.contact == nil
+
         self.newContact = ContactModel()
         if self.contact == nil {
             contact = newContact
@@ -146,7 +152,7 @@ class ContactDetailFormViewController: FormViewController {
     
     @objc func editTapped() {
         self.isBeingEdited = true
-        self.form.allRows.map{ $0.evaluateDisabled()}
+        self.evaluateDisabled()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
         let row:NameRow = form.rowBy(tag:"nameRow")!
         row.cell.textField.becomeFirstResponder()
@@ -155,8 +161,8 @@ class ContactDetailFormViewController: FormViewController {
     @objc func saveTapped() {
         let errors = form.validate()
         if errors.count == 0 {
-            self.isBeingEdited = true
-            self.form.allRows.map{ $0.evaluateDisabled()}
+            self.isBeingEdited = false
+            self.evaluateDisabled()
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
             self.contact!.populate(data:newContact)
             self.contactsManager!.saveContact(newContact: contact!)
