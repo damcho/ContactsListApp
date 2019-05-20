@@ -13,6 +13,7 @@ class ContactDetailFormViewController: FormViewController {
     var contact:ContactModel?
     var newContact = ContactModel()
     var contactsManager:ContactsManager?
+    var isBeingEdited = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -32,7 +33,6 @@ class ContactDetailFormViewController: FormViewController {
     }
     
     func setupView() {
-        self.tableView.isUserInteractionEnabled = self.contact == nil
         self.title = contact == nil ? "Create contact" : contact?.name
         
         self.newContact = ContactModel()
@@ -77,26 +77,33 @@ class ContactDetailFormViewController: FormViewController {
         return  NameRow("nameRow"){ row in
             row.title = "Name"
             row.placeholder = "Enter text here"
+            row.disabled = Condition.function(["nameRow"], { (form) -> Bool in
+                return !self.isBeingEdited
+            })
             row.value = self.contact?.name
             row.add(rule: RuleRequired())
             row.onChange { row in
                 self.newContact.name = row.value
             }
-            
+
             } .cellUpdate { cell, row in
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 }
         }
+        
     }
     
     func createEmailRow() -> EmailRow{
-        return EmailRow(){ row in
+        return EmailRow("emailRow"){ row in
             row.title = "E-mail"
             row.placeholder = "Enter text here"
             row.value = self.contact?.email
             row.add(rule: RuleRequired())
             row.add(rule: RuleEmail())
+            row.disabled = Condition.function(["emailRow"], { (form) -> Bool in
+                return !self.isBeingEdited
+            })
             row.onChange { row in
                 self.newContact.email = row.value
             }
@@ -109,10 +116,13 @@ class ContactDetailFormViewController: FormViewController {
     }
     
     func createDateRow() -> DateRow{
-        return DateRow(){ row in
+        return DateRow("dateRow"){ row in
             row.title = "Birth"
             row.value = self.contact?.born
             row.add(rule: RuleRequired())
+            row.disabled = Condition.function(["dateRow"], { (form) -> Bool in
+                return !self.isBeingEdited
+            })
             row.onChange { row in
                 self.newContact.born = row.value
             }
@@ -121,10 +131,13 @@ class ContactDetailFormViewController: FormViewController {
     
     func createBioSection() -> Section{
         return Section("Biography")
-            <<< TextAreaRow(){ row in
+            <<< TextAreaRow("Biography"){ row in
                 row.textAreaHeight = .dynamic(initialTextViewHeight: 100)
                 row.title = "Biography"
                 row.value = self.contact?.biography
+                row.disabled = Condition.function(["Biography"], { (form) -> Bool in
+                    return !self.isBeingEdited
+                })
                 row.onChange { row in
                     self.newContact.biography = row.value
                 }
@@ -132,8 +145,9 @@ class ContactDetailFormViewController: FormViewController {
     }
     
     @objc func editTapped() {
+        self.isBeingEdited = true
+        self.form.allRows.map{ $0.evaluateDisabled()}
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        self.tableView.isUserInteractionEnabled = true
         let row:NameRow = form.rowBy(tag:"nameRow")!
         row.cell.textField.becomeFirstResponder()
     }
@@ -141,6 +155,8 @@ class ContactDetailFormViewController: FormViewController {
     @objc func saveTapped() {
         let errors = form.validate()
         if errors.count == 0 {
+            self.isBeingEdited = true
+            self.form.allRows.map{ $0.evaluateDisabled()}
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
             self.contact!.populate(data:newContact)
             self.contactsManager!.saveContact(newContact: contact!)
