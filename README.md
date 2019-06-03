@@ -1,5 +1,8 @@
 # ContactList App
 
+## Description
+### Displays a list of contacts retrieved from API. contacts are stored locally in case the app goes offline. User can create a new contact or delete it from the list
+
 ## Arquitecture: light VIPER. (No presenter)
 
 ### ContactsModuleRouter: in charge of creating the module and routing through the app
