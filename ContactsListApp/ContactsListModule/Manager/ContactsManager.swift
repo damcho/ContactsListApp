@@ -26,7 +26,7 @@ class ContactsManager {
         } else if Reachability.isConnectedToNetwork() {
             self.requestContactsFromAPI()
         } else {
-            self.requestMoviesFromDB()
+            self.requestContactsFromDB()
         }
     }
     
@@ -34,7 +34,7 @@ class ContactsManager {
         return self.contacts != nil && self.contacts!.isEmpty == false
     }
     
-    func requestMoviesFromDB() {
+    func requestContactsFromDB() {
         
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
