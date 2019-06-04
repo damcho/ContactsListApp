@@ -21,14 +21,18 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupListeners()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.title = "Contacts List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+
+        self.contactsTableView.refreshControl = UIRefreshControl()
+        self.contactsTableView.refreshControl?.addTarget(self, action: #selector(refreshContacts), for: .valueChanged)
+
+        setupListeners()
         fetchContacts()
+    }
+    
+    @objc func refreshContacts() {
+        contactsManager?.fwtchContacts()
     }
     
     func setupListeners() {
@@ -45,6 +49,7 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     func setupDatafetchWithSuccess() {
         self.contactsManager!.dataRetrievedWithSuccess = { [unowned self] contacts in
+            self.contactsTableView.refreshControl?.endRefreshing()
             self.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
             self.contacts = contacts
             self.contactsTableView.isHidden = self.contacts!.isEmpty

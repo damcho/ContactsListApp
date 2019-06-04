@@ -21,9 +21,7 @@ class ContactsManager {
     var contactSavedWithError:((Error) ->())?
     
     func fwtchContacts() {
-        if contactsInMemory() {
-            self.dataRetrievedWithSuccess?(self.contacts!)
-        } else if Reachability.isConnectedToNetwork() {
+        if Reachability.isConnectedToNetwork() {
             self.requestContactsFromAPI()
         } else {
             self.requestContactsFromDB()
@@ -38,12 +36,13 @@ class ContactsManager {
         
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
-            if contacts != nil {
-                self.dataRetrievedWithSuccess?(self.contacts!)
-            } else {
+            guard let contacts = contacts else {
                 self.dataRetrievedWithError?(error!)
+                return
             }
+            self.dataRetrievedWithSuccess?(contacts)
         }
+        
         self.coredataConnector.getContacts(completion:handler)
     }
     
@@ -60,7 +59,7 @@ class ContactsManager {
             } catch let error {
                 self.dataRetrievedWithError?(error)
             }
-            self.dataRetrievedWithSuccess?(self.contacts!)
+            self.dataRetrievedWithSuccess?(retrievedContaacts)
         }
         
         self.apiConnector.getContacts(completion:handler)
@@ -78,8 +77,9 @@ class ContactsManager {
     }
     
     func saveContact(newContact:ContactModel) {
-        let errors = newContact.hasErrors()
-        if errors == nil{
+        let error = newContact.hasErrors()
+        
+        if error == nil{
             
             if self.contacts?.contains(where: { $0 == newContact }) == false{
                 self.contacts?.append(newContact)
@@ -91,14 +91,16 @@ class ContactsManager {
                 contactSavedWithError?( error)
             }
         } else {
-            contactSavedWithError?(errors!)
+            contactSavedWithError?(error!)
         }
     }
     
     func deleteContact(index:IndexPath) {
-        let contact = self.contacts![index.row]
-        self.contacts!.remove(at: index.row)
-        self.coredataConnector.deleteContact(contact:contact)
+        if self.contacts != nil, index.row <= self.contacts?.count ?? 0{
+            let contact = self.contacts![index.row]
+            self.contacts?.remove(at: index.row)
+            self.coredataConnector.deleteContact(contact:contact)
+        }
     }
     
     class func getImage(path:String, completion: @escaping (UIImage?) -> ()){
