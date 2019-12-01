@@ -1,9 +1,9 @@
 PODS:
-  - Alamofire (5.0.0-beta.6)
-  - Eureka (5.0.0)
-  - NVActivityIndicatorView (4.7.0):
-    - NVActivityIndicatorView/Presenter (= 4.7.0)
-  - NVActivityIndicatorView/Presenter (4.7.0)
+  - Alamofire (5.0.0-rc.3)
+  - Eureka (5.1.0)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0.beta.3)
@@ -11,16 +11,16 @@ DEPENDENCIES:
   - NVActivityIndicatorView
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Alamofire
     - Eureka
     - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
-  Alamofire: cd08a4402bd12cacd0c66f23fb12fec8d6b965e4
-  Eureka: 0f64f477ec8ef6201c6fec143d60ff5c201cf654
-  NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
+  Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
+  Eureka: 18a5076dcf0c41f9cd9748aa1c42f4d11434bdae
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
 
 PODFILE CHECKSUM: 6f8c2cc2af37e1ea052c15ce38a57950b36ddd9d
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4
