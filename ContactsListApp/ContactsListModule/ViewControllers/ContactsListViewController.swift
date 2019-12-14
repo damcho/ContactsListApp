@@ -31,6 +31,11 @@ class ContactsListViewController: UIViewController, UITableViewDelegate, UITable
         fetchContacts()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.contactsTableView.reloadData()
+    }
+    
     @objc func refreshContacts() {
         contactsManager?.fwtchContacts()
     }

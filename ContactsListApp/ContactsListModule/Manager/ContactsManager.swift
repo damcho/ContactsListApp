@@ -12,24 +12,21 @@ import UIKit
 class ContactsManager {
     
     static let imageCache = NSCache<NSString, UIImage>()
-    let apiConnector = ContactsAPIConnector.shared
-    let coredataConnector = ContactsDBConnector.shared
+    var apiConnector: DataConnector
+    var coredataConnector: DataConnector
     var contacts:[ContactModel]?
     var dataRetrievedWithSuccess:(([ContactModel]) -> ())?
     var dataRetrievedWithError:((Error) -> ())?
     var contctSavedWithSuccess:(() -> ())?
     var contactSavedWithError:((Error) ->())?
     
-    func fwtchContacts() {
-        if Reachability.isConnectedToNetwork() {
-            self.requestContactsFromAPI()
-        } else {
-            self.requestContactsFromDB()
-        }
+    init(apiConnector: DataConnector = ContactsAPIConnector.shared, dbConnector: DataConnector = ContactsDBConnector.shared) {
+        self.apiConnector = apiConnector
+        self.coredataConnector = dbConnector
     }
     
-    func contactsInMemory() -> Bool {
-        return self.contacts != nil && self.contacts!.isEmpty == false
+    func fwtchContacts() {
+        self.requestContactsFromAPI()
     }
     
     func requestContactsFromDB() {
@@ -51,7 +48,7 @@ class ContactsManager {
         let handler = {[unowned self] (contacts:[ContactModel]?, error:Error?) in
             self.contacts = contacts
             guard let retrievedContaacts = contacts else {
-                self.dataRetrievedWithError?(error!)
+                self.requestContactsFromDB()
                 return
             }
             do {
@@ -111,24 +108,22 @@ class ContactsManager {
         }
         
         let downloadedImageHandler = { (image:UIImage?) in
-            if image != nil {
-                imageCache.setObject(image!, forKey: path as NSString)
-                ContactsDBConnector.shared.save(imageData: image!.pngData()!, with: path, and: nil)
+            if let retrievedImage = image {
+                imageCache.setObject(retrievedImage, forKey: path as NSString)
+                ContactsDBConnector.shared.save(imageData: retrievedImage.pngData()!, with: path, and: nil)
+                completion(retrievedImage)
+                return
+            } else {
+                guard let imageData = ContactsDBConnector.shared.load(fileName: path),
+                    let image = UIImage(data:imageData) else {
+                        completion(nil)
+                        return
+                    }
+                completion(image)
             }
-            completion(image)
         }
         
-        if Reachability.isConnectedToNetwork() {
-            ContactsAPIConnector.downloadImage(from:path, completion:downloadedImageHandler)
-        } else {
-            guard let imageData = ContactsDBConnector.shared.load(fileName: path), let image = UIImage(data:imageData) else {
-                completion(nil)
-                return
-            }
-            
-            imageCache.setObject(image, forKey: path as NSString)
-            completion(UIImage(data: imageData))
-        }
+        ContactsAPIConnector.downloadImage(from:path, completion:downloadedImageHandler)
     }
 }
 

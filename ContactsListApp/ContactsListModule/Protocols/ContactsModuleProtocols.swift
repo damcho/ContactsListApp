@@ -12,5 +12,18 @@ typealias QueryResut = ([ContactModel]?, Error?) -> ()
 
 protocol DataConnector {
     func getContacts( completion: @escaping QueryResut )
+    func storeContacts(contacts:[ContactModel]) throws
+    func deleteContact(contact:ContactModel)
+}
+
+extension DataConnector {
+
+    func storeContacts(contacts:[ContactModel]) throws {
+        
+    }
+    func deleteContact(contact:ContactModel) {
+
+    }
+    
 }
 

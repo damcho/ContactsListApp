@@ -17,10 +17,6 @@ class ContactsAPIConnector :DataConnector{
     let contactsPath = "/rgasp-mobile-test/v1/"
     let contactsFileName = "content.json"
     
-    init() {
-        Reachability.listenForReachability()
-    }
-    
     func getContacts(completion: @escaping QueryResut) {
         if let urlComponents = URLComponents(string: baseURL + contactsPath + contactsFileName) {
             guard let url = urlComponents.url else { return }
@@ -72,21 +68,6 @@ class ContactsAPIConnector :DataConnector{
                     }
                 })
         }   
-    }
-}
-
-
-public class Reachability {
-    
-    static let reachabilityManager = Alamofire.NetworkReachabilityManager (host: "www.apple.com")
-    static func listenForReachability() {
-        reachabilityManager!.startListening { (listener:NetworkReachabilityManager.NetworkReachabilityStatus) in
-            // Do something on internet status change
-        }
-    }
-    
-    static func isConnectedToNetwork() -> Bool{
-        return reachabilityManager!.isReachable
     }
 }
 
